@@ -25,7 +25,9 @@ while pending:
     if not re.fullmatch(r'/[A-Za-z0-9_./+@-]+', p) or '..' in Path(p).parts:
         errors.append((p, 'unsafe path skipped')); continue
     try:
-        r = subprocess.run([adb, '-s', serial, 'exec-out', 'su', '-c', f'"cat {p}"'], capture_output=True, timeout=20)
+        # exec-out already preserves the su -c argument; literal outer quotes
+        # make Magisk try to execute a command named "cat /path".
+        r = subprocess.run([adb, '-s', serial, 'exec-out', 'su', '-c', f'cat {p}'], capture_output=True, timeout=20)
         if r.returncode:
             errors.append((p, r.stderr.decode(errors='replace'))); continue
         target = out/'xml'/p.lstrip('/')

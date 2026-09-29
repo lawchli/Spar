@@ -22,6 +22,9 @@ if args[:1] == ['-s']: args=args[2:]
 if args == ['devices']:
     print('List of devices attached\nMOCK_ONLY\tdevice'); sys.exit(0)
 if args == ['get-state']: print('device'); sys.exit(0)
+if args[:3] == ['exec-out', 'su', '-c'] and args[-1][:1] in ['"', "'"]:
+    # Observed Magisk failure: malformed command text can still exit zero.
+    print('/system/bin/sh: ' + args[-1] + ': inaccessible or not found'); sys.exit(0)
 cmd=' '.join(args)
 if 'id' == args[-1]: print('uid=0(root) gid=0(root)'); sys.exit(0)
 if 'find -L' in cmd:

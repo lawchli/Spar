@@ -2,7 +2,12 @@
 
 Phone-side tools for Spar, run from a Mac or Linux host over ADB.
 
-This version (v0.1) is the diagnostic kit used to find out how the phone detects a wired headset and where its microphone input is routed. It collects evidence only: it does not modify the system, the mixer or SELinux.
+It started as a diagnostic kit for finding out how the phone detects a wired headset and where its microphone input is routed. The kit collects evidence only: it does not modify the system, the mixer or SELinux.
+
+| Version | What it adds |
+|---|---|
+| v0.1 | Diagnostic kit and Probe app |
+| v0.2 | Mono line input through the headset mic contact: [docs/MONO-LINE-IN.md](docs/MONO-LINE-IN.md) |
 
 ## Requirements
 

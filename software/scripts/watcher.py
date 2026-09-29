@@ -5,7 +5,6 @@ import datetime as dt
 import json
 import os
 from pathlib import Path
-import shlex
 import signal
 import subprocess
 import threading
@@ -25,7 +24,9 @@ lock = threading.Lock()
 def stamp():
     return dt.datetime.now(dt.timezone.utc).isoformat(timespec='milliseconds')
 def argv(command):
-    return base + ['exec-out', 'su', '-c', shlex.quote(command)]
+    # Pass the script as one su -c argument. Extra quotes become part of the
+    # command name under Magisk (sh: "getevent -lt": not found).
+    return base + ['exec-out', 'su', '-c', command]
 def sample(command):
     try:
         r = subprocess.run(argv(command), capture_output=True, timeout=15)
