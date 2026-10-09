@@ -6,7 +6,7 @@ root_check
 abi="$(adb_cmd shell getprop ro.product.cpu.abi | tr -d '\r')"
 [ "$abi" = arm64-v8a ] || { echo "Expected arm64-v8a; got $abi. Rebuild for this ABI first." >&2; exit 2; }
 adb_cmd shell mkdir -p /data/local/tmp/xz1audio
-for bin in tinymix tinypcminfo tinycap; do
+for bin in tinymix tinypcminfo tinycap vcap vmix; do
   adb_cmd push "$ROOT/artifacts/arm64-v8a/$bin" "/data/local/tmp/xz1audio/$bin"
   adb_cmd shell chmod 755 "/data/local/tmp/xz1audio/$bin"
 done

@@ -66,7 +66,7 @@ On this ROM, the vendor `audio_policy_configuration.xml` declares the USB Device
 The kernel reports a stereo microphone (`SND_JACK_STEREO_MICROPHONE`) when:
 
 1. the plug is first detected as a HEADSET (as above);
-2. the fifth pole (AMIC3, biased by MIC BIAS3) is detected as an ANC microphone; and
+2. the extra microphone contact of a 5-pole plug (pole 3 from the tip: AMIC3, biased by MIC BIAS3) is detected as an ANC microphone; and
 3. the left headphone impedance is above 5000 Ω.
 
 Each microphone pole can therefore take the same series + load network. The open question at this point was that LineageOS ignores the stereo-mic switch event (SW 0x12), so the framework registers only a mono wired mic. v0.3 deals with that.

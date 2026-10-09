@@ -2,12 +2,13 @@
 
 Phone-side tools for Spar, run from a Mac or Linux host over ADB.
 
-It started as a diagnostic kit for finding out how the phone detects a wired headset and where its microphone input is routed. The kit collects evidence only: it does not modify the system, the mixer or SELinux.
+It started as a diagnostic kit for finding out how the phone detects a wired headset and where its microphone input is routed; the diagnostic tools only collect evidence. From v0.3 the stereo tools change the codec mixer and grab the headset input device, both temporarily and reversibly.
 
 | Version | What it adds |
 |---|---|
 | v0.1 | Diagnostic kit and Probe app |
 | v0.2 | Mono line input through the headset mic contact: [docs/MONO-LINE-IN.md](docs/MONO-LINE-IN.md) |
+| v0.3 | Stereo capture on the 5-pole jack, with monitoring: [docs/STEREO-CAPTURE.md](docs/STEREO-CAPTURE.md) |
 
 ## Requirements
 
@@ -54,12 +55,18 @@ Defaults: 5 s, 48 kHz, mono, PCM16, source UNPROCESSED, strict routing.
 | `scripts/mixer-snapshot.sh` | Full mixer and policy snapshot for a named state |
 | `scripts/pcm-capture.sh` | Records one explicit PCM device for 5 s without touching the mixer |
 | `scripts/analyze_wav.py` | Duration, RMS/dBFS, DC offset, peak and clipping of a WAV |
+| `scripts/binaural-mixer.sh` | Stereo capture route and monitoring: `apply`, `restore`, `monitor-on`, `monitor-off` |
+| `scripts/level-test.sh`, `scripts/raw_metrics.py` | Level and noise at several ADC gains |
+| `scripts/howl-sweep.sh` | Finds where monitoring starts to feed back |
+| `scripts/jack-compare-snap.sh` | Mixer, jack and policy snapshot for comparing plug states |
+| `native/jackguard/` | Filters the 5-pole switch event that crashes Android 16 |
+| `native/vcap/` | `vcap` (capture) and `vmix` (mixer write) through the phone's own `libtinyalsa.so` |
 | `test-app/` | Probe app source and build script |
-| `native/` | TinyALSA 2.0.0 source (BSD-3-Clause) and the NDK build script |
+| `native/tinyalsa-2.0.0/` | TinyALSA 2.0.0 source (BSD-3-Clause), with a local `tinycap` fix |
 | `tests/test_host.py` | Host-side tests with mocked ADB data |
 
 See [docs/BUILD.md](docs/BUILD.md) to build the app and the native tools, and [docs/RUNBOOK.md](docs/RUNBOOK.md) for the full procedure.
 
 ## Binaries
 
-Prebuilt binaries (the probe APK and arm64 `tinymix`, `tinypcminfo` and `tinycap`) are attached to the [GitHub release](../../releases) of each `software-v*` tag. To use them, put them in `artifacts/` as described in [docs/BUILD.md](docs/BUILD.md).
+Prebuilt binaries (the Probe APK and the arm64 tools) are attached to the [GitHub release](../../releases) of each `software-v*` tag. To use them, put them in `artifacts/` as described in [docs/BUILD.md](docs/BUILD.md).

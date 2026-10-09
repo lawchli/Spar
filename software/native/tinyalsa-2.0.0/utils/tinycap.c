@@ -249,7 +249,19 @@ unsigned int capture_sample(FILE *file, unsigned int card, unsigned int device,
     total_frames_read = 0;
     frames_read = 0;
     while (capturing) {
-        frames_read = pcm_readi(pcm, buffer, pcm_get_buffer_size(pcm));
+        /* xz1-audio-debug patch: pcm_readi() returns a negative errno on
+         * failure; storing it unsigned made fwrite() dump ~16 GB of memory
+         * into the WAV (filled the phone's /data on 2026-10-05). */
+        /* xz1-audio-debug patch: read one period per call. The msm-pcm-q6
+         * capture copy on this kernel hands back at most one DSP buffer per
+         * call while ALSA advances by the full request, so whole-buffer reads
+         * returned stale data and ran faster than real time (2026-10-09). */
+        int ret = pcm_readi(pcm, buffer, period_size);
+        if (ret < 0) {
+            fprintf(stderr, "Error capturing sample: %s\n", pcm_get_error(pcm));
+            break;
+        }
+        frames_read = (unsigned int)ret;
         total_frames_read += frames_read;
         if ((total_frames_read / rate) >= capture_time) {
             capturing = 0;

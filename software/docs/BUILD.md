@@ -7,6 +7,9 @@ artifacts/xz1-audio-debug.apk
 artifacts/arm64-v8a/tinymix
 artifacts/arm64-v8a/tinypcminfo
 artifacts/arm64-v8a/tinycap
+artifacts/arm64-v8a/vcap
+artifacts/arm64-v8a/vmix
+artifacts/arm64-v8a/jackguard
 ```
 
 ## Probe app
@@ -29,10 +32,11 @@ Requires the official Android NDK r27c.
 
 ```bash
 export ANDROID_NDK_HOME="$HOME/Library/Android/sdk/ndk/27.2.12479018"
-./native/build.sh
+./native/build.sh              # tinymix, tinypcminfo, tinycap, vcap, vmix
+./native/jackguard/build.sh    # jackguard
 ```
 
-The output is arm64-v8a for Android API 28+. The source is TinyALSA 2.0.0, unmodified in this version; see [native/PROVENANCE.md](../native/PROVENANCE.md) and the license in `native/tinyalsa-2.0.0/NOTICE`.
+The output is arm64-v8a for Android API 28+. `vcap` and `vmix` load the phone's own `libtinyalsa.so` at run time. TinyALSA 2.0.0 is upstream source except for a local fix in `utils/tinycap.c`; see [native/PROVENANCE.md](../native/PROVENANCE.md) and the license in `native/tinyalsa-2.0.0/NOTICE`.
 
 ## Host tests
 
@@ -47,6 +51,7 @@ for f in diagnose.sh watch.sh scripts/*.sh test-app/build.sh native/build.sh; do
 ## Undo
 
 - Stopping the watcher only ends the ADB child processes it started; it does not kill the ADB server.
-- Nothing is remounted, flashed or written to sysfs, SELinux or the mixer.
+- The diagnostic tools never remount, flash or write to sysfs, SELinux or the mixer.
+- `binaural-mixer.sh restore` (or a reboot) returns the mixer to its idle values; stopping `jackguard` releases the headset input device.
 - To remove the app: `adb uninstall org.xz1.audio` (pull recordings first).
 - Native tools are installed only in `/data/local/tmp/xz1audio/`; that directory can be deleted once recordings are pulled.
