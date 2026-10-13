@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>xz1-splitter/xz1-splitter.kicad_sch</source>
+    <date>2026-10-13T21:50:36</date>
+    <tool>Eeschema 10.0.6</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>XZ1 Stereo Splitter</title>
+        <company/>
+        <rev>A</rev>
+        <date>2026-10-13</date>
+        <source>xz1-splitter.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="J1">
+      <value>PJ-327A0-SMT</value>
+      <footprint>XZ1:PJ-327A0-SMT_C381135</footprint>
+      <fields>
+        <field name="LCSC">C381135</field>
+        <field name="Footprint">XZ1:PJ-327A0-SMT_C381135</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="XZ1" part="PJ327" description=""/>
+      <property name="LCSC" value="C381135"/>
+      <property name="Sheetname" value="xz1-splitter"/>
+      <property name="Sheetfile" value="xz1-splitter.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>d9410a5d-a4be-507b-bdad-252a59c0fab7</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="2"/>
+            <pin num="5"/>
+            <pin num="3"/>
+            <pin num="4"/>
+            <pin num="6"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="J2">
+      <value>PJ-327A0-SMT</value>
+      <footprint>XZ1:PJ-327A0-SMT_C381135</footprint>
+      <fields>
+        <field name="LCSC">C381135</field>
+        <field name="Footprint">XZ1:PJ-327A0-SMT_C381135</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="XZ1" part="PJ327" description=""/>
+      <property name="LCSC" value="C381135"/>
+      <property name="Sheetname" value="xz1-splitter"/>
+      <property name="Sheetfile" value="xz1-splitter.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e9fb54bb-c766-5945-ac10-00e0ea184e05</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="2"/>
+            <pin num="5"/>
+            <pin num="3"/>
+            <pin num="4"/>
+            <pin num="6"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R1">
+      <value>10k</value>
+      <footprint>XZ1:R_0603_1608Metric</footprint>
+      <fields>
+        <field name="LCSC">C25804</field>
+        <field name="Footprint">XZ1:R_0603_1608Metric</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="XZ1" part="R" description=""/>
+      <property name="LCSC" value="C25804"/>
+      <property name="Sheetname" value="xz1-splitter"/>
+      <property name="Sheetfile" value="xz1-splitter.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6dfed5c7-21a3-5166-af0d-e98f3190c1bc</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R2">
+      <value>10k</value>
+      <footprint>XZ1:R_0603_1608Metric</footprint>
+      <fields>
+        <field name="LCSC">C25804</field>
+        <field name="Footprint">XZ1:R_0603_1608Metric</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="XZ1" part="R" description=""/>
+      <property name="LCSC" value="C25804"/>
+      <property name="Sheetname" value="xz1-splitter"/>
+      <property name="Sheetfile" value="xz1-splitter.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>1eb25fb7-8ecf-5b31-bd4c-e00efd6a337c</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R3">
+      <value>2.2k</value>
+      <footprint>XZ1:R_0603_1608Metric</footprint>
+      <fields>
+        <field name="LCSC">C4190</field>
+        <field name="Footprint">XZ1:R_0603_1608Metric</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="XZ1" part="R" description=""/>
+      <property name="LCSC" value="C4190"/>
+      <property name="Sheetname" value="xz1-splitter"/>
+      <property name="Sheetfile" value="xz1-splitter.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>f2940d1d-ba56-5077-8036-da4c9b4cb4c3</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="R4">
+      <value>2.2k</value>
+      <footprint>XZ1:R_0603_1608Metric</footprint>
+      <fields>
+        <field name="LCSC">C4190</field>
+        <field name="Footprint">XZ1:R_0603_1608Metric</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="XZ1" part="R" description=""/>
+      <property name="LCSC" value="C4190"/>
+      <property name="Sheetname" value="xz1-splitter"/>
+      <property name="Sheetfile" value="xz1-splitter.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a88848a4-7052-5aec-bd2d-1f521da21d0f</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+    <comp ref="W1">
+      <value>XZ1 FIVE-POLE CABLE</value>
+      <footprint>XZ1:WirePads_5Pole_Star</footprint>
+      <fields>
+        <field name="LCSC"/>
+        <field name="Footprint">XZ1:WirePads_5Pole_Star</field>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="XZ1" part="Cable" description=""/>
+      <property name="LCSC" value=""/>
+      <property name="Sheetname" value="xz1-splitter"/>
+      <property name="Sheetfile" value="xz1-splitter.kicad_sch"/>
+      <property name="exclude_from_bom"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>bc3bf7c0-66b1-5671-b994-d3db08c02062</tstamps>
+      <units>
+        <unit name="A">
+          <pins>
+            <pin num="1"/>
+            <pin num="2"/>
+            <pin num="3"/>
+            <pin num="4"/>
+            <pin num="4b"/>
+            <pin num="5"/>
+          </pins>
+        </unit>
+      </units>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="XZ1" part="Cable">
+      <fields>
+        <field name="Reference">W</field>
+        <field name="Value">Cable</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <pins>
+        <pin num="1" name="L" type="passive"/>
+        <pin num="2" name="R" type="passive"/>
+        <pin num="3" name="ML" type="passive"/>
+        <pin num="4" name="G" type="passive"/>
+        <pin num="4b" name="G2" type="passive"/>
+        <pin num="5" name="MR" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="XZ1" part="PJ327">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">PJ327</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <pins>
+        <pin num="2" name="TIP" type="passive"/>
+        <pin num="3" name="SLEEVE" type="passive"/>
+        <pin num="4" name="S_AUX" type="passive"/>
+        <pin num="5" name="RING" type="passive"/>
+        <pin num="6" name="T_SWITCH" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="XZ1" part="R">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+        <field name="Footprint"/>
+        <field name="Datasheet"/>
+        <field name="Description"/>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="XZ1">
+      <uri>${KIPRJMOD}/lib/XZ1.kicad_sym</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="/GND" class="Default">
+      <node ref="J1" pin="3" pinfunction="SLEEVE_3" pintype="passive"/>
+      <node ref="J2" pin="3" pinfunction="SLEEVE_3" pintype="passive"/>
+      <node ref="R3" pin="2" pintype="passive"/>
+      <node ref="R4" pin="2" pintype="passive"/>
+      <node ref="W1" pin="4" pinfunction="G_4" pintype="passive"/>
+      <node ref="W1" pin="4b" pinfunction="G2_4b" pintype="passive"/>
+    </net>
+    <net code="2" name="/HP_L" class="Default">
+      <node ref="J1" pin="2" pinfunction="TIP_2" pintype="passive"/>
+      <node ref="W1" pin="1" pinfunction="L_1" pintype="passive"/>
+    </net>
+    <net code="3" name="/HP_R" class="Default">
+      <node ref="J1" pin="5" pinfunction="RING_5" pintype="passive"/>
+      <node ref="W1" pin="2" pinfunction="R_2" pintype="passive"/>
+    </net>
+    <net code="4" name="/LINE_L" class="Default">
+      <node ref="J2" pin="2" pinfunction="TIP_2" pintype="passive"/>
+      <node ref="R1" pin="2" pintype="passive"/>
+    </net>
+    <net code="5" name="/LINE_R" class="Default">
+      <node ref="J2" pin="5" pinfunction="RING_5" pintype="passive"/>
+      <node ref="R2" pin="2" pintype="passive"/>
+    </net>
+    <net code="6" name="/MIC_L" class="Default">
+      <node ref="R1" pin="1" pintype="passive"/>
+      <node ref="R3" pin="1" pintype="passive"/>
+      <node ref="W1" pin="3" pinfunction="ML_3" pintype="passive"/>
+    </net>
+    <net code="7" name="/MIC_R" class="Default">
+      <node ref="R2" pin="1" pintype="passive"/>
+      <node ref="R4" pin="1" pintype="passive"/>
+      <node ref="W1" pin="5" pinfunction="MR_5" pintype="passive"/>
+    </net>
+    <net code="8" name="unconnected-(J1-S_AUX-Pad4)" class="Default">
+      <node ref="J1" pin="4" pinfunction="S_AUX_4" pintype="passive+no_connect"/>
+    </net>
+    <net code="9" name="unconnected-(J1-T_SWITCH-Pad6)" class="Default">
+      <node ref="J1" pin="6" pinfunction="T_SWITCH_6" pintype="passive+no_connect"/>
+    </net>
+    <net code="10" name="unconnected-(J2-S_AUX-Pad4)" class="Default">
+      <node ref="J2" pin="4" pinfunction="S_AUX_4" pintype="passive+no_connect"/>
+    </net>
+    <net code="11" name="unconnected-(J2-T_SWITCH-Pad6)" class="Default">
+      <node ref="J2" pin="6" pinfunction="T_SWITCH_6" pintype="passive+no_connect"/>
+    </net>
+  </nets>
+</export>
