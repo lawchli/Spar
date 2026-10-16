@@ -63,8 +63,8 @@ w='''(footprint "WirePads_5Pole_Star" (version 20260206) (generator "xz1-builder
 '''
 for n,(x,y) in wirepos.items():
  w+=f'(pad "{n}" thru_hole circle (at {x} {y}) (size 2 2) (drill 1) (layers "*.Cu" "*.Mask"))\n'
-# Tie-down holes: within this footprint, excluded from assembly; no additional components.
-for x,y in [(19,10.5),(35,6.5)]:w+=f'(pad "" np_thru_hole circle (at {x} {y}) (size 1.6 1.6) (drill 1.6) (layers "*.Cu" "*.Mask"))\n'
+# M2 NPTH mounting holes. Reserve radius 2.6 mm around centre on both copper layers.
+for x,y in [(18,9.5),(35,6.5)]:w+=f'(pad "" np_thru_hole circle (at {x} {y}) (size 2.2 2.2) (drill 2.2) (layers "*.Cu" "*.Mask"))\n'
 w+='(fp_rect (start 1.5 1) (end 10.5 12.5) (stroke (width .05) (type solid)) (fill none) (layer "B.CrtYd"))\n)';(LIB/'WirePads_5Pole_Star.kicad_mod').write_text(w)
 (PROJ/'fp-lib-table').write_text('(fp_lib_table (version 7) (lib (name "XZ1") (type "KiCad") (uri "${KIPRJMOD}/lib/XZ1.pretty") (options "") (descr "Project local verified footprints")))\n')
 # Schematic symbols use passive pins; all circuit parts are passive.
@@ -122,6 +122,7 @@ pr['net_settings']={'classes':[{'name':'Default','clearance':.2,'track_width':.3
 (PROJ/'xz1-direct.kicad_dru').write_text('''(version 1)
 (rule "Ground trace width" (condition "A.Type == 'Track' && A.NetName == '/GND'") (constraint track_width (min 0.5mm)))
 (rule "Signal trace width" (condition "A.Type == 'Track' && A.NetName != '/GND'") (constraint track_width (min 0.25mm)))
+(rule "M2 head and support copper clearance" (condition "A.Type == 'Pad' && A.Hole_Size_X == 2.2mm") (constraint hole_clearance (min 1.5mm)))
 ''')
 b=k.BOARD();b.SetCopperLayerCount(2);b.GetDesignSettings().SetBoardThickness(M(1.0));b.GetDesignSettings().SetAuxOrigin(V(0,13.5))
 netnames=['GND','HP_L','HP_R','MIC_L','MIC_R','LINE_L','LINE_R']+[f'unconnected-({r}-{pn}-Pad{n})' for r in ['J1','J2'] for n,pn in [('4','S_AUX'),('6','T_SWITCH')]]
@@ -163,7 +164,7 @@ route('GND',[star,point('R3','2')])
 route('GND',[star,(7.5,8.5),(7.5,11),point('R4','2')])
 route('GND',[star,(10.5,8.5),(10.5,11.2),(12,12.7),(21,12.7),(21,2.6),point('J1','3')])
 route('GND',[point('J2','3'),(37,2.6)]);via('GND',37,2.6)
-route('GND',[star,(12,6),(32,6),(35.4,2.6),(37,2.6)],'B.Cu')
+route('GND',[star,(12,6),(31,6),(33,3),(35.4,2.6),(37,2.6)],'B.Cu')
 from route_signals import autoroute
 autoroute(b,pads,route,via,point)
 for a,z in [((0,0),(48,0)),((48,0),(48,13.5)),((48,13.5),(0,13.5)),((0,13.5),(0,0))]:
@@ -176,8 +177,8 @@ for n,l in [('1','L'),('2','R'),('3','ML'),('4','G'),('5','MR')]:
 silk('4b',9,12.1,.8)
 for ref,x,y in [('R1',14,2.2),('R2',14,9.1),('R3',6,8.4),('R4',6,9.6)]:silk(ref,x,y,.8)
 silk('PHONES',27,6.4,1,True);silk('LINE IN',42,6.4,1,True)
-silk('XZ1 B / 48x13.5',15,3.2,.8,True)
-silk('STAR GND - NO POUR',18,8.5,.8,True)
+silk('XZ1 B-M2 48x13.5',15,3.2,.8,True)
+silk('STAR GND - NO POUR',14,5.0,.8,True)
 silk('PHONES',19.5,5.5,.8,False,90);silk('LINE IN',34.4,2.8,.8,False,90)
 b.BuildConnectivity();k.SaveBoard(str(PROJ/'xz1-direct.kicad_pcb'),b)
 (ROOT/'reports/layout-pads.json').write_text(json.dumps({r+'.'+n:point(r,n) for r,n in pads},indent=2))

@@ -1,8 +1,8 @@
 {
   "kicad/xz1-direct.kicad_sch": "6a5ec2b9023f840bf234873797dd97afc01b88ba08ed6757b8ec0b9fbe95047b",
-  "kicad/xz1-direct.kicad_pcb": "ebc5bae1a9a9ee60d11efbaa26e951103ee2954716902bf5fea1c9775d69b096",
-  "kicad/xz1-direct.kicad_pro": "93ed51852558bbb0be1a2af76ecfc1e7dd842db04b47e78396373da7cbb6706f",
-  "fab/xz1-direct-Gerber.zip": "8ab80a9f31c6983395906969f08511847ca1192675633d2389cf255642f04e96",
+  "kicad/xz1-direct.kicad_pcb": "6d03faec56df31b5bd91eb333f7218c997fcd83662d5c82454197d36a00d8a25",
+  "kicad/xz1-direct.kicad_pro": "9913618a2fbed8a88ec0b278a758fe9a363d39cff9ab86af14b4de9daeb25fd6",
+  "fab/xz1-direct-Gerber.zip": "7494a209ed927e47738d941b080c12bbbf1da0ced0cc788b3d028fb116049059",
   "fab/BOM.csv": "9c52f490469b3180714b0f708f0b47c8b79bc74467f1011ec19443205c314cea",
   "fab/CPL.csv": "88fa89c8ac6c5dd39410a074aba7d1f48d18d271217c84aadd7d8c1f753c22f3"
 }

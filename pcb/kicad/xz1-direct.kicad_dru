@@ -1,3 +1,5 @@
 (version 1)
 (rule "Ground trace width" (condition "A.Type == 'Track' && A.NetName == '/GND'") (constraint track_width (min 0.5mm)))
 (rule "Signal trace width" (condition "A.Type == 'Track' && A.NetName != '/GND'") (constraint track_width (min 0.25mm)))
+
+(rule "M2 head and support copper clearance" (condition "A.Type == 'Pad' && A.Hole_Size_X == 2.2mm") (constraint hole_clearance (min 1.5mm)))

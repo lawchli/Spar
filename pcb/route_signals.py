@@ -26,7 +26,8 @@ def autoroute(b,pads,route,via,point):
    for p in fp.Pads():
     x,y=xy(p.GetPosition());sz=xy(p.GetSize());attr=p.GetAttribute()
     if attr==k.PAD_ATTRIB_NPTH:
-     circ(x,y,mm(p.GetDrillSize().x)/2+.25+rad+.12,[0,1]);continue
+     clear=1.5 if abs(mm(p.GetDrillSize().x)-2.2)<.001 else .25
+     circ(x,y,mm(p.GetDrillSize().x)/2+clear+rad+.12,[0,1]);continue
     if p.GetNetname()==net:continue
     ls=[0,1] if attr==k.PAD_ATTRIB_PTH else [0]
     extra=.2+rad+.12

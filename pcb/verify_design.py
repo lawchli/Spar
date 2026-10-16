@@ -36,6 +36,31 @@ for f in b.GetFootprints():
   if p.GetAttribute()!=k.PAD_ATTRIB_NPTH:continue
   x,y=mm(p.GetPosition());r=k.ToMM(p.GetDrillSize().x)/2
   assert min(x-r,48-x-r,y-r,13.5-y-r)>=.5-1e-6
+# Independent B-M2 screw keepout audit against both layers of real copper.
+mounts=[(p,k.ToMM(p.GetPosition().x),k.ToMM(p.GetPosition().y)) for p in b.FindFootprintByReference('W1').Pads() if p.GetAttribute()==k.PAD_ATTRIB_NPTH]
+assert {(round(x,3),round(y,3)) for p,x,y in mounts}=={(18.,9.5),(35.,6.5)}
+mount_clear=[]
+for hole,x,y in mounts:
+ assert abs(k.ToMM(hole.GetDrillSize().x)-2.2)<1e-6
+ centre=k.VECTOR2I(k.FromMM(x),k.FromMM(y))
+ gaps=[]
+ for track in b.GetTracks():
+  if isinstance(track,k.PCB_VIA):
+   dx,dy=mm(track.GetPosition());gap=math.hypot(dx-x,dy-y)-k.ToMM(track.GetWidth(k.F_Cu))/2
+  else:
+   a,z=mm(track.GetStart()),mm(track.GetEnd());dx,dy=z[0]-a[0],z[1]-a[1];ll=dx*dx+dy*dy
+   t=max(0,min(1,((x-a[0])*dx+(y-a[1])*dy)/ll)) if ll else 0
+   gap=math.hypot(x-a[0]-t*dx,y-a[1]-t*dy)-k.ToMM(track.GetWidth())/2
+  gaps.append(gap)
+ for pad in pads.values():
+  a,c=mm(pad.GetPosition());sx,sy=mm(pad.GetSize())
+  if pad.GetShape()==k.PAD_SHAPE_CIRCLE:gap=math.hypot(x-a,y-c)-sx/2
+  else:
+   if round(pad.GetOrientationDegrees())%180==90:sx,sy=sy,sx
+   gap=math.hypot(max(abs(x-a)-sx/2,0),max(abs(y-c)-sy/2,0))
+  gaps.append(gap)
+ assert min(gaps)>=2.6-1e-6,(x,y,min(gaps))
+ mount_clear.append({'centre_mm':[x,y],'drill_diameter_mm':2.2,'nearest_copper_from_centre_mm':round(min(gaps),4),'minimum_keepout_radius_mm':2.6})
 # Copper graph after removing star pad. Segments starting at the star are
 # trimmed at its radius; capsule distance joins full-width copper, not just
 # endpoints. Pad bounding circles conservatively overestimate SMD copper.
@@ -108,5 +133,5 @@ measurements=[]
 for a,z,want in cases:
  got=meas(a,z);assert got==want,(a,z,got,want)
  measurements.append({'from':a,'to':z,'ohms':'OL' if math.isinf(got) else got})
-report={'result':'PASS','date':'2026-10-15','actual_copper_star_branches_after_removing_P4':sorted(groups.values()),'P4b_to_other_branches_min_clearance_mm':round(min(gaps),4),'copper_zones':0,'pcb_and_schematic_net_assignments':'MATCH','unpopulated_jack_pins':'4 and 6, both jacks','measurement_checks':measurements,'measurement_count':len(measurements),'limits':'Ideal DC topology; no physical prototype or audio/noise testing claimed.'}
+report={'mounting_holes':mount_clear,'result':'PASS','date':'2026-10-16','actual_copper_star_branches_after_removing_P4':sorted(groups.values()),'P4b_to_other_branches_min_clearance_mm':round(min(gaps),4),'copper_zones':0,'pcb_and_schematic_net_assignments':'MATCH','unpopulated_jack_pins':'4 and 6, both jacks','measurement_checks':measurements,'measurement_count':len(measurements),'limits':'Ideal DC topology; no physical prototype or audio/noise testing claimed.'}
 (ROOT/'reports/design-audit.json').write_text(json.dumps(report,indent=2));print(json.dumps(report,indent=2))

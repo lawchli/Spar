@@ -1,8 +1,8 @@
-# Spar PCB — Rev B
+# Spar PCB — Rev B-M2
 
 ![Top](previews/top.png)
 
-Direct-plug board: **48 × 13.5 mm, 2 layers, 1.0 mm**. Instead of hanging on a cable, the board sits in a small box on top of the phone with both jacks facing up; a bare 5-pole plug sticks out of the box into the phone and is wired to the board with short wires. Revised on 2026-10-16: both jacks moved 0.5 mm towards the board edge so their mouths clear the board. ERC and DRC clean.
+Rev B with mounting holes: the two 1.6 mm locating holes became **2.2 mm holes for M2 screws** at (18, 9.5) and (35, 6.5) mm, with a 5.2 mm copper keep-out, so the board can be screwed into the first enclosure. 48 × 13.5 × 1.0 mm. ERC and DRC clean.
 
 Open `kicad/xz1-direct.kicad_pro`. Symbols and footprints are in `kicad/lib/`.
 
@@ -42,6 +42,8 @@ The project was generated and checked with KiCad 10 and its bundled Python:
 
 The jack footprint was drawn from the manufacturer's top-view drawing (XKB PJ-327A0-SMT, LCSC C381135). The 0603 resistor footprint and 3D model come from the KiCad library (CC BY-SA 4.0 with the KiCad design exception).
 
+`upgrade_mounting.py` converts a saved Rev B board to B-M2 (re-routes around the larger keep-outs, keeps placement and schematic).
+
 ## Files
 
 | Path | Contents |
@@ -61,3 +63,4 @@ Each revision replaces the previous one on this branch; earlier ones are kept as
 | [`pcb-breadboard`](../../../tree/pcb-breadboard/pcb) | 2026-10-11 | Breadboard / hand-wired build |
 | [`pcb-rev-a`](../../../tree/pcb-rev-a/pcb) | 2026-10-13 | Cable splitter board, 35 × 15 mm (KiCad) |
 | [`pcb-rev-b`](../../../tree/pcb-rev-b/pcb) | 2026-10-15 | Direct-plug board, 48 × 13.5 mm (KiCad) |
+| [`pcb-rev-b-m2`](../../../tree/pcb-rev-b-m2/pcb) | 2026-10-16 | Rev B with two M2 mounting holes (KiCad) |
