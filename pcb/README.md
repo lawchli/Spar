@@ -1,10 +1,10 @@
-# Spar PCB — Rev A
+# Spar PCB — Rev B
 
 ![Top](previews/top.png)
 
-Cable splitter board: **35 × 15 mm, 2 layers, 1.0 mm**. The 5-pole cable is soldered directly to the board, and two surface-mount 3.5 mm jacks carry the headphone output and the line input. Generated and checked with KiCad 10.0.6 on 2026-10-13: ERC and DRC clean, star ground and resistor paths verified.
+Direct-plug board: **48 × 13.5 mm, 2 layers, 1.0 mm**. Instead of hanging on a cable, the board sits in a small box on top of the phone with both jacks facing up; a bare 5-pole plug sticks out of the box into the phone and is wired to the board with short wires. Revised on 2026-10-16: both jacks moved 0.5 mm towards the board edge so their mouths clear the board. ERC and DRC clean.
 
-Open `xz1-splitter/xz1-splitter.kicad_pro`. Symbols and footprints are in the project's own `lib/`.
+Open `kicad/xz1-direct.kicad_pro`. Symbols and footprints are in `kicad/lib/`.
 
 ## Circuit
 
@@ -46,11 +46,11 @@ The jack footprint was drawn from the manufacturer's top-view drawing (XKB PJ-32
 
 | Path | Contents |
 |---|---|
-| `xz1-splitter/` | KiCad project and local library |
+| `kicad/` | KiCad project and local library |
 | `fab/` | Gerbers, BOM, placement |
 | `previews/` | KiCad renders, copper views, schematic |
 | `reports/` | ERC, DRC, drill report, netlist, independent design audit, release checksums |
-| `build_design.py`, `release.py`, `verify_design.py` | Generator, release and check scripts |
+| `build_design.py`, `route_signals.py`, `release.py`, `verify_design.py` | Generator, router, release and check scripts |
 
 ## Revisions
 
@@ -60,3 +60,4 @@ Each revision replaces the previous one on this branch; earlier ones are kept as
 |---|---|---|
 | [`pcb-breadboard`](../../../tree/pcb-breadboard/pcb) | 2026-10-11 | Breadboard / hand-wired build |
 | [`pcb-rev-a`](../../../tree/pcb-rev-a/pcb) | 2026-10-13 | Cable splitter board, 35 × 15 mm (KiCad) |
+| [`pcb-rev-b`](../../../tree/pcb-rev-b/pcb) | 2026-10-15 | Direct-plug board, 48 × 13.5 mm (KiCad) |

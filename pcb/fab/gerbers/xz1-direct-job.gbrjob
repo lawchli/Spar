@@ -5,17 +5,17 @@
       "Application": "Pcbnew",
       "Version": "10.0.6"
     },
-    "CreationDate": "2026-10-13T21:50:37+09:00"
+    "CreationDate": "2026-10-16T02:35:55+09:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
-      "Name": "xz1-splitter",
-      "GUID": "787a312d-7370-46c6-9974-7465722e6b69",
+      "Name": "xz1-direct",
+      "GUID": "787a312d-6469-4726-9563-742e6b696361",
       "Revision": "rev?"
     },
     "Size": {
-      "X": 35.05,
-      "Y": 15.05
+      "X": 48.05,
+      "Y": 13.55
     },
     "LayerNumber": 2,
     "BoardThickness": 1.0,
@@ -32,42 +32,42 @@
   ],
   "FilesAttributes": [
     {
-      "Path": "xz1-splitter-F_Cu.gtl",
+      "Path": "xz1-direct-F_Cu.gtl",
       "FileFunction": "Copper,L1,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "xz1-splitter-B_Cu.gbl",
+      "Path": "xz1-direct-B_Cu.gbl",
       "FileFunction": "Copper,L2,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "xz1-splitter-F_Paste.gtp",
+      "Path": "xz1-direct-F_Paste.gtp",
       "FileFunction": "SolderPaste,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "xz1-splitter-F_Silkscreen.gto",
+      "Path": "xz1-direct-F_Silkscreen.gto",
       "FileFunction": "Legend,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "xz1-splitter-B_Silkscreen.gbo",
+      "Path": "xz1-direct-B_Silkscreen.gbo",
       "FileFunction": "Legend,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "xz1-splitter-F_Mask.gts",
+      "Path": "xz1-direct-F_Mask.gts",
       "FileFunction": "SolderMask,Top",
       "FilePolarity": "Negative"
     },
     {
-      "Path": "xz1-splitter-B_Mask.gbs",
+      "Path": "xz1-direct-B_Mask.gbs",
       "FileFunction": "SolderMask,Bot",
       "FilePolarity": "Negative"
     },
     {
-      "Path": "xz1-splitter-Edge_Cuts.gm1",
+      "Path": "xz1-direct-Edge_Cuts.gm1",
       "FileFunction": "Profile",
       "FilePolarity": "Positive"
     }

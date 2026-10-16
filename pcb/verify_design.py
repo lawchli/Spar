@@ -5,7 +5,7 @@ Run with KiCad bundled Python. No assumptions taken from generator routes.
 import json,math,pathlib,xml.etree.ElementTree as ET
 import pcbnew as k
 ROOT=pathlib.Path(__file__).resolve().parent
-b=k.LoadBoard(str(ROOT/'xz1-splitter/xz1-splitter.kicad_pcb'))
+b=k.LoadBoard(str(ROOT/'kicad/xz1-direct.kicad_pcb'))
 mm=lambda p:(k.ToMM(p.x),k.ToMM(p.y))
 pads={(f.GetReference(),p.GetNumber()):p for f in b.GetFootprints() for p in f.Pads() if p.GetNumber()}
 expected={('W1','1'):'/HP_L',('W1','2'):'/HP_R',('W1','3'):'/MIC_L',('W1','4'):'/GND',('W1','4b'):'/GND',('W1','5'):'/MIC_R',('J1','2'):'/HP_L',('J1','5'):'/HP_R',('J1','3'):'/GND',('J2','2'):'/LINE_L',('J2','5'):'/LINE_R',('J2','3'):'/GND',('R1','1'):'/MIC_L',('R1','2'):'/LINE_L',('R2','1'):'/MIC_R',('R2','2'):'/LINE_R',('R3','1'):'/MIC_L',('R3','2'):'/GND',('R4','1'):'/MIC_R',('R4','2'):'/GND'}
@@ -35,7 +35,7 @@ for f in b.GetFootprints():
  for p in f.Pads():
   if p.GetAttribute()!=k.PAD_ATTRIB_NPTH:continue
   x,y=mm(p.GetPosition());r=k.ToMM(p.GetDrillSize().x)/2
-  assert min(x-r,35-x-r,y-r,15-y-r)>=.5-1e-6
+  assert min(x-r,48-x-r,y-r,13.5-y-r)>=.5-1e-6
 # Copper graph after removing star pad. Segments starting at the star are
 # trimmed at its radius; capsule distance joins full-width copper, not just
 # endpoints. Pad bounding circles conservatively overestimate SMD copper.
@@ -108,5 +108,5 @@ measurements=[]
 for a,z,want in cases:
  got=meas(a,z);assert got==want,(a,z,got,want)
  measurements.append({'from':a,'to':z,'ohms':'OL' if math.isinf(got) else got})
-report={'result':'PASS','date':'2026-10-13','actual_copper_star_branches_after_removing_P4':sorted(groups.values()),'P4b_to_other_branches_min_clearance_mm':round(min(gaps),4),'copper_zones':0,'pcb_and_schematic_net_assignments':'MATCH','unpopulated_jack_pins':'4 and 6, both jacks','measurement_checks':measurements,'measurement_count':len(measurements),'limits':'Ideal DC topology; no physical prototype or audio/noise testing claimed.'}
+report={'result':'PASS','date':'2026-10-15','actual_copper_star_branches_after_removing_P4':sorted(groups.values()),'P4b_to_other_branches_min_clearance_mm':round(min(gaps),4),'copper_zones':0,'pcb_and_schematic_net_assignments':'MATCH','unpopulated_jack_pins':'4 and 6, both jacks','measurement_checks':measurements,'measurement_count':len(measurements),'limits':'Ideal DC topology; no physical prototype or audio/noise testing claimed.'}
 (ROOT/'reports/design-audit.json').write_text(json.dumps(report,indent=2));print(json.dumps(report,indent=2))

@@ -1,8 +1,8 @@
 {
-  "xz1-splitter/xz1-splitter.kicad_sch": "c834b02089599c0b9790b790808ca0e95e3518210154a41c1523465e7cc7ecf8",
-  "xz1-splitter/xz1-splitter.kicad_pcb": "9e1a49bc4562b3101ec153e77093ce645916f1d45f91d9c77554d8222da8a74f",
-  "xz1-splitter/xz1-splitter.kicad_pro": "d44e4a9ea9da23f3d4271c30c311202c14b28416fd8f12c7d363749dcbbc67be",
-  "fab/xz1-splitter-Gerber.zip": "182af416dd04606a49b56c777f30e5d39a0eb52f5d0d3ea199a06b91a6c06b39",
+  "kicad/xz1-direct.kicad_sch": "6a5ec2b9023f840bf234873797dd97afc01b88ba08ed6757b8ec0b9fbe95047b",
+  "kicad/xz1-direct.kicad_pcb": "ebc5bae1a9a9ee60d11efbaa26e951103ee2954716902bf5fea1c9775d69b096",
+  "kicad/xz1-direct.kicad_pro": "93ed51852558bbb0be1a2af76ecfc1e7dd842db04b47e78396373da7cbb6706f",
+  "fab/xz1-direct-Gerber.zip": "8ab80a9f31c6983395906969f08511847ca1192675633d2389cf255642f04e96",
   "fab/BOM.csv": "9c52f490469b3180714b0f708f0b47c8b79bc74467f1011ec19443205c314cea",
-  "fab/CPL.csv": "3cda0e11d339dc7377c9372ae40d73483cb7feca4283066f322e8721712e3f8d"
+  "fab/CPL.csv": "88fa89c8ac6c5dd39410a074aba7d1f48d18d271217c84aadd7d8c1f753c22f3"
 }

@@ -1,6 +1,6 @@
 {
   "result": "PASS",
-  "date": "2026-10-13",
+  "date": "2026-10-15",
   "actual_copper_star_branches_after_removing_P4": [
     [
       "J1.3"
@@ -18,7 +18,7 @@
       "W1.4b"
     ]
   ],
-  "P4b_to_other_branches_min_clearance_mm": 0.3,
+  "P4b_to_other_branches_min_clearance_mm": 0.25,
   "copper_zones": 0,
   "pcb_and_schematic_net_assignments": "MATCH",
   "unpopulated_jack_pins": "4 and 6, both jacks",

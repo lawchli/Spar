@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <export version="E">
   <design>
-    <source>xz1-splitter/xz1-splitter.kicad_sch</source>
-    <date>2026-10-13T21:50:36</date>
+    <source>kicad/xz1-direct.kicad_sch</source>
+    <date>2026-10-16T02:35:54</date>
     <tool>Eeschema 10.0.6</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
         <title>XZ1 Stereo Splitter</title>
         <company/>
-        <rev>A</rev>
-        <date>2026-10-13</date>
-        <source>xz1-splitter.kicad_sch</source>
+        <rev>B</rev>
+        <date>2026-10-15</date>
+        <source>xz1-direct.kicad_sch</source>
         <comment number="1" value=""/>
         <comment number="2" value=""/>
         <comment number="3" value=""/>
@@ -35,10 +35,10 @@
       </fields>
       <libsource lib="XZ1" part="PJ327" description=""/>
       <property name="LCSC" value="C381135"/>
-      <property name="Sheetname" value="xz1-splitter"/>
-      <property name="Sheetfile" value="xz1-splitter.kicad_sch"/>
+      <property name="Sheetname" value="xz1-direct"/>
+      <property name="Sheetfile" value="xz1-direct.kicad_sch"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamps>d9410a5d-a4be-507b-bdad-252a59c0fab7</tstamps>
+      <tstamps>313699f1-d52e-5427-ba04-c485eb9a576a</tstamps>
       <units>
         <unit name="A">
           <pins>
@@ -62,10 +62,10 @@
       </fields>
       <libsource lib="XZ1" part="PJ327" description=""/>
       <property name="LCSC" value="C381135"/>
-      <property name="Sheetname" value="xz1-splitter"/>
-      <property name="Sheetfile" value="xz1-splitter.kicad_sch"/>
+      <property name="Sheetname" value="xz1-direct"/>
+      <property name="Sheetfile" value="xz1-direct.kicad_sch"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamps>e9fb54bb-c766-5945-ac10-00e0ea184e05</tstamps>
+      <tstamps>57e52fa6-a562-5810-9f9f-263cd86e91af</tstamps>
       <units>
         <unit name="A">
           <pins>
@@ -89,10 +89,10 @@
       </fields>
       <libsource lib="XZ1" part="R" description=""/>
       <property name="LCSC" value="C25804"/>
-      <property name="Sheetname" value="xz1-splitter"/>
-      <property name="Sheetfile" value="xz1-splitter.kicad_sch"/>
+      <property name="Sheetname" value="xz1-direct"/>
+      <property name="Sheetfile" value="xz1-direct.kicad_sch"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamps>6dfed5c7-21a3-5166-af0d-e98f3190c1bc</tstamps>
+      <tstamps>609dcf9c-c976-561d-9ee8-672472383440</tstamps>
       <units>
         <unit name="A">
           <pins>
@@ -113,10 +113,10 @@
       </fields>
       <libsource lib="XZ1" part="R" description=""/>
       <property name="LCSC" value="C25804"/>
-      <property name="Sheetname" value="xz1-splitter"/>
-      <property name="Sheetfile" value="xz1-splitter.kicad_sch"/>
+      <property name="Sheetname" value="xz1-direct"/>
+      <property name="Sheetfile" value="xz1-direct.kicad_sch"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamps>1eb25fb7-8ecf-5b31-bd4c-e00efd6a337c</tstamps>
+      <tstamps>d40713be-2b67-50d0-8e54-e647d4114710</tstamps>
       <units>
         <unit name="A">
           <pins>
@@ -137,10 +137,10 @@
       </fields>
       <libsource lib="XZ1" part="R" description=""/>
       <property name="LCSC" value="C4190"/>
-      <property name="Sheetname" value="xz1-splitter"/>
-      <property name="Sheetfile" value="xz1-splitter.kicad_sch"/>
+      <property name="Sheetname" value="xz1-direct"/>
+      <property name="Sheetfile" value="xz1-direct.kicad_sch"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamps>f2940d1d-ba56-5077-8036-da4c9b4cb4c3</tstamps>
+      <tstamps>3a0c9ac8-e671-5895-bbe1-ec5766f58e75</tstamps>
       <units>
         <unit name="A">
           <pins>
@@ -161,10 +161,10 @@
       </fields>
       <libsource lib="XZ1" part="R" description=""/>
       <property name="LCSC" value="C4190"/>
-      <property name="Sheetname" value="xz1-splitter"/>
-      <property name="Sheetfile" value="xz1-splitter.kicad_sch"/>
+      <property name="Sheetname" value="xz1-direct"/>
+      <property name="Sheetfile" value="xz1-direct.kicad_sch"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamps>a88848a4-7052-5aec-bd2d-1f521da21d0f</tstamps>
+      <tstamps>466cd98b-33dc-5c64-9fc7-14e5f7368b91</tstamps>
       <units>
         <unit name="A">
           <pins>
@@ -175,7 +175,7 @@
       </units>
     </comp>
     <comp ref="W1">
-      <value>XZ1 FIVE-POLE CABLE</value>
+      <value>FIVE-POLE INTERNAL WIRES</value>
       <footprint>XZ1:WirePads_5Pole_Star</footprint>
       <fields>
         <field name="LCSC"/>
@@ -185,11 +185,11 @@
       </fields>
       <libsource lib="XZ1" part="Cable" description=""/>
       <property name="LCSC" value=""/>
-      <property name="Sheetname" value="xz1-splitter"/>
-      <property name="Sheetfile" value="xz1-splitter.kicad_sch"/>
+      <property name="Sheetname" value="xz1-direct"/>
+      <property name="Sheetfile" value="xz1-direct.kicad_sch"/>
       <property name="exclude_from_bom"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamps>bc3bf7c0-66b1-5671-b994-d3db08c02062</tstamps>
+      <tstamps>ab8ca74b-ffe7-580a-8e0f-a00e98c44e75</tstamps>
       <units>
         <unit name="A">
           <pins>

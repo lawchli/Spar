@@ -6,10 +6,10 @@ and cross-checked against XKB PJ-327AX-SMT top-view drawing.
 import json, math, pathlib, shutil, uuid
 import pcbnew as k
 ROOT=pathlib.Path(__file__).resolve().parent
-PROJ=ROOT/'xz1-splitter'; LIB=PROJ/'lib'/'XZ1.pretty'
+PROJ=ROOT/'kicad'; LIB=PROJ/'lib'/'XZ1.pretty'
 LIB.mkdir(parents=True,exist_ok=True)
 SHARED=pathlib.Path('/Applications/KiCad/KiCad.app/Contents/SharedSupport')
-U=lambda s:str(uuid.uuid5(uuid.NAMESPACE_URL,'xz1-splitter-v1/'+s))
+U=lambda s:str(uuid.uuid5(uuid.NAMESPACE_URL,'xz1-direct-v1/'+s))
 Q=lambda s:json.dumps(str(s),ensure_ascii=False)
 M=k.FromMM
 V=lambda x,y:k.VECTOR2I(M(x),M(y))
@@ -27,13 +27,14 @@ for n,x,y in [('4',-4.4,-3.5),('5',-.8,-3.5),('6',5.1,-3.5),('3',-3.4,3.5),('2',
  jack+=f'(pad "{n}" smd rect (at {x} {y}) (size 1.5 3) (layers "F.Cu" "F.Paste" "F.Mask"))\n'
 for x in [-3,3]:jack+=f'(pad "" np_thru_hole circle (at {x} 0) (size 1.1 1.1) (drill 1.1) (layers "*.Cu" "*.Mask"))\n'
 # Silkscreen only along clear regions; full outline remains on Fab.
-for a,b in [((-6,-3.18),(-5.4,-3.18)),((-3.4,-3.18),(-1.8,-3.18)),((.2,-3.18),(4.1,-3.18)),((-2.4,3.18),(2.5,3.18)),((-6,-3.18),(-6,3.18)),((6,-3.18),(6,3.18))]:
+# Body front (x=-6) lies on the board edge, so no silk there.
+for a,b in [((-3.4,-3.18),(-1.8,-3.18)),((.2,-3.18),(4.1,-3.18)),((-2.4,3.18),(2.5,3.18)),((6,-3.18),(6,3.18))]:
  jack+=f'(fp_line (start {a[0]} {a[1]}) (end {b[0]} {b[1]}) (stroke (width 0.12) (type solid)) (layer "F.SilkS"))\n'
 # Official mesh: OBJ X centre is +3.9 mm; Y is already 3D Y-up.
 # KiCad legacy VRML coordinates use 0.1 inch units, hence /2.54.
 models=PROJ/'lib/models';models.mkdir(exist_ok=True)
 verts=[];faces={};materials={};mat='default';newmat=None
-for line in (ROOT/'sources/C381135-model.obj').read_text().splitlines():
+for line in (ROOT.parent/'sources/C381135-model.obj').read_text().splitlines():
  t=line.split()
  if not t:continue
  if t[0]=='v':verts.append(((float(t[1])-3.9)/2.54,float(t[2])/2.54,float(t[3])/2.54))
@@ -53,8 +54,8 @@ jack+=')\n';(LIB/'PJ-327A0-SMT_C381135.kicad_mod').write_text(jack)
 shutil.copyfile(SHARED/'3dmodels/Resistor_SMD.3dshapes/R_0603_1608Metric.step',models/'R_0603_1608Metric.step')
 resfp=(SHARED/'footprints/Resistor_SMD.pretty/R_0603_1608Metric.kicad_mod').read_text().replace('${KICAD10_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step','${KIPRJMOD}/lib/models/R_0603_1608Metric.step')
 (LIB/'R_0603_1608Metric.kicad_mod').write_text(resfp)
-# One six-pad footprint, no purchased connector. Pad 4b is the second ground wire.
-wirepos={'1':(5,2),'2':(5,4.5),'3':(5,7),'4':(5,9.5),'5':(5,12),'4b':(8,9.5)}
+# One six-pad footprint, no purchased connector. Pad 4b is the optional ground test pad.
+wirepos={'1':(3,2.5),'2':(6,2.5),'3':(3,7),'4':(9,7),'5':(3,11),'4b':(9,10.5)}
 w='''(footprint "WirePads_5Pole_Star" (version 20260206) (generator "xz1-builder") (layer "F.Cu")
 (attr through_hole exclude_from_pos_files exclude_from_bom)
 (property "Reference" "REF**" (at 0 0) (layer "F.Fab") (effects (font (size 1 1) (thickness 0.15))))
@@ -63,8 +64,8 @@ w='''(footprint "WirePads_5Pole_Star" (version 20260206) (generator "xz1-builder
 for n,(x,y) in wirepos.items():
  w+=f'(pad "{n}" thru_hole circle (at {x} {y}) (size 2 2) (drill 1) (layers "*.Cu" "*.Mask"))\n'
 # Tie-down holes: within this footprint, excluded from assembly; no additional components.
-for y in [1.2,13.8]:w+=f'(pad "" np_thru_hole circle (at 1.2 {y}) (size 1.3 1.3) (drill 1.3) (layers "*.Cu" "*.Mask"))\n'
-w+='(fp_rect (start .6 .8) (end 9.2 13.2) (stroke (width .05) (type solid)) (fill none) (layer "B.CrtYd"))\n)';(LIB/'WirePads_5Pole_Star.kicad_mod').write_text(w)
+for x,y in [(19,10.5),(35,6.5)]:w+=f'(pad "" np_thru_hole circle (at {x} {y}) (size 1.6 1.6) (drill 1.6) (layers "*.Cu" "*.Mask"))\n'
+w+='(fp_rect (start 1.5 1) (end 10.5 12.5) (stroke (width .05) (type solid)) (fill none) (layer "B.CrtYd"))\n)';(LIB/'WirePads_5Pole_Star.kicad_mod').write_text(w)
 (PROJ/'fp-lib-table').write_text('(fp_lib_table (version 7) (lib (name "XZ1") (type "KiCad") (uri "${KIPRJMOD}/lib/XZ1.pretty") (options "") (descr "Project local verified footprints")))\n')
 # Schematic symbols use passive pins; all circuit parts are passive.
 effect='(effects (font (size 1.27 1.27)))'
@@ -85,13 +86,13 @@ inst={}
 def sym(name,ref,val,x,y,fp,lcsc='',bom=True):
  uid=U(ref); inst[ref]=uid
  props=prop('Reference',ref,x,y-(13.97 if name=='PJ327' else 7.62))+prop('Value',val,x,y-(11.43 if name=='PJ327' else 5.08))+prop('Footprint','XZ1:'+fp,x,y,True)+prop('Datasheet','',x,y,True)+prop('LCSC',lcsc,x,y,True)
- items.append(f'(symbol (lib_id "XZ1:{name}") (at {x} {y} 0) (unit 1) (in_bom {"yes" if bom else "no"}) (on_board yes) (dnp no) (uuid "{uid}") {props} (instances (project "xz1-splitter" (path "/{rootid}" (reference "{ref}") (unit 1)))))')
+ items.append(f'(symbol (lib_id "XZ1:{name}") (at {x} {y} 0) (unit 1) (in_bom {"yes" if bom else "no"}) (on_board yes) (dnp no) (uuid "{uid}") {props} (instances (project "xz1-direct" (path "/{rootid}" (reference "{ref}") (unit 1)))))')
 def wire(a,b):items.append(f'(wire (pts (xy {a[0]} {a[1]}) (xy {b[0]} {b[1]})) (stroke (width 0) (type default)) (uuid "{U(str(a)+str(b))}"))')
 def label(name,x,y):items.append(f'(label "{name}" (at {x} {y} 0) (effects (font (size 1.27 1.27)) (justify left bottom)) (uuid "{U(name+str(x)+str(y))}"))')
 def text(s,x,y,size=1.27):items.append(f'(text {Q(s)} (at {x} {y} 0) (effects (font (size {size} {size})) (justify left)) (uuid "{U(s)}"))')
 def labwire(net,x,y,dx=-7.62):
  e=(round(x+dx,4),y);wire((x,y),e);label(net,*e)
-sym('Cable','W1','XZ1 FIVE-POLE CABLE',38.1,55.88,'WirePads_5Pole_Star',bom=False)
+sym('Cable','W1','FIVE-POLE INTERNAL WIRES',38.1,55.88,'WirePads_5Pole_Star',bom=False)
 wn={'1':'HP_L','2':'HP_R','3':'MIC_L','4':'GND','4b':'GND','5':'MIC_R'}
 for n,name,dy in wps:labwire(wn[n],45.72,round(55.88-dy,4),12.7)
 for ref,y in [('J1',60.96),('J2',127)]:
@@ -102,27 +103,27 @@ for ref,y in [('J1',60.96),('J2',127)]:
   else:labwire(({'2':'HP_L','5':'HP_R','3':'GND'} if ref=='J1' else {'2':'LINE_L','5':'LINE_R','3':'GND'})[n],205.74,py,-17.78)
 for ref,val,x,y,a,b,lc in [('R1','10k',116.84,121.92,'MIC_L','LINE_L','C25804'),('R2','10k',116.84,142.24,'MIC_R','LINE_R','C25804'),('R3','2.2k',76.2,99.06,'MIC_L','GND','C4190'),('R4','2.2k',121.92,99.06,'MIC_R','GND','C4190')]:
  sym('R',ref,val,x,y,'R_0603_1608Metric',lc);labwire(a,round(x-5.08,4),y);labwire(b,round(x+5.08,4),y,7.62)
-text('XZ1 STEREO SPLITTER  /  Rev A',25.4,25.4,2.54)
+text('XZ1 STEREO SPLITTER  /  Rev B',25.4,25.4,2.54)
 text('Fixed circuit: R1/R2 10k, R3/R4 2.2k, all 0603 1%.',25.4,33.02)
 text('P4 = star point. Four independent returns: J1.S, J2.S, R3, R4. NO copper pours.',25.4,38.1)
 text('1 PHONES (TRS)',190.5,43.18,1.524);text('2 LINE IN (TRS)',190.5,109.22,1.524)
-text('W1.1-5 = P1-5. W1.4b = P4b (second ground wire).',25.4,170.18)
+text('W1.1-5 = P1-5. W1.4b = P4b (optional ground test pad).',25.4,170.18)
 text('J1/J2: 2=Tip, 5=Ring, 3=Sleeve. Pins 4 and 6 intentionally unconnected.',25.4,175.26)
 text('Do not substitute another PJ-327 variant. See sources/C381135-PJ-327A0-SMT.pdf.',25.4,180.34)
 embedded=''.join(s.replace(f'(symbol "{n}"',f'(symbol "XZ1:{n}"',1) for s,n in zip(libs,['R','PJ327','Cable']))
-(PROJ/'xz1-splitter.kicad_sch').write_text(f'(kicad_sch (version 20250114) (generator "eeschema") (uuid "{rootid}") (paper "A4") (title_block (title "XZ1 Stereo Splitter") (date "2026-10-13") (rev "A")) (lib_symbols {embedded}) '+''.join(items)+f'(sheet_instances (path "/" (page "1"))))')
+(PROJ/'xz1-direct.kicad_sch').write_text(f'(kicad_sch (version 20250114) (generator "eeschema") (uuid "{rootid}") (paper "A4") (title_block (title "XZ1 Stereo Splitter") (date "2026-10-15") (rev "B")) (lib_symbols {embedded}) '+''.join(items)+f'(sheet_instances (path "/" (page "1"))))')
 # Project defaults with explicit fabricator minima and project netclasses.
 pr=json.loads((SHARED/'template/kicad.kicad_pro').read_text())
-pr['meta']['filename']='xz1-splitter.kicad_pro'
+pr['meta']['filename']='xz1-direct.kicad_pro'
 rules=pr['board']['design_settings']['rules']
 rules.update(min_clearance=.2,min_track_width=.25,min_via_diameter=.6,min_through_hole_diameter=.3,min_hole_clearance=.25,min_copper_edge_clearance=.3)
 pr['net_settings']={'classes':[{'name':'Default','clearance':.2,'track_width':.3,'via_diameter':.6,'via_drill':.3,'microvia_diameter':.3,'microvia_drill':.1,'diff_pair_width':.3,'diff_pair_gap':.25,'diff_pair_via_gap':.25},{'name':'Ground','clearance':.2,'track_width':.5,'via_diameter':.8,'via_drill':.4,'microvia_diameter':.3,'microvia_drill':.1,'diff_pair_width':.5,'diff_pair_gap':.25,'diff_pair_via_gap':.25}], 'meta':{'version':4},'netclass_patterns':[{'netclass':'Ground','pattern':'/GND'}]}
-(PROJ/'xz1-splitter.kicad_pro').write_text(json.dumps(pr,indent=2))
-(PROJ/'xz1-splitter.kicad_dru').write_text('''(version 1)
+(PROJ/'xz1-direct.kicad_pro').write_text(json.dumps(pr,indent=2))
+(PROJ/'xz1-direct.kicad_dru').write_text('''(version 1)
 (rule "Ground trace width" (condition "A.Type == 'Track' && A.NetName == '/GND'") (constraint track_width (min 0.5mm)))
 (rule "Signal trace width" (condition "A.Type == 'Track' && A.NetName != '/GND'") (constraint track_width (min 0.25mm)))
 ''')
-b=k.BOARD();b.SetCopperLayerCount(2);b.GetDesignSettings().SetBoardThickness(M(1.0));b.GetDesignSettings().SetAuxOrigin(V(0,15))
+b=k.BOARD();b.SetCopperLayerCount(2);b.GetDesignSettings().SetBoardThickness(M(1.0));b.GetDesignSettings().SetAuxOrigin(V(0,13.5))
 netnames=['GND','HP_L','HP_R','MIC_L','MIC_R','LINE_L','LINE_R']+[f'unconnected-({r}-{pn}-Pad{n})' for r in ['J1','J2'] for n,pn in [('4','S_AUX'),('6','T_SWITCH')]]
 nets={}
 for name in netnames:
@@ -136,12 +137,15 @@ def addfp(name,ref,val,x,y,angle,connections):
   if n:pads[(ref,n)]=p
  field=k.PCB_FIELD(fp,k.FIELD_T_USER);field.SetName('LCSC');field.SetText({'J1':'C381135','J2':'C381135','R1':'C25804','R2':'C25804','R3':'C4190','R4':'C4190','W1':''}[ref]);field.SetVisible(False);fp.Add(field)
  fps[ref]=fp;return fp
-addfp('WirePads_5Pole_Star','W1','XZ1 FIVE-POLE CABLE',0,0,0,wn)
-for ref,x in [('J1',18.5),('J2',29.5)]:
+addfp('WirePads_5Pole_Star','W1','FIVE-POLE INTERNAL WIRES',0,0,0,wn)
+JY=6.0
+for ref,x in [('J1',27),('J2',42)]:
  con={'2':'HP_L','5':'HP_R','3':'GND'} if ref=='J1' else {'2':'LINE_L','5':'LINE_R','3':'GND'}
  con.update({n:f'unconnected-({ref}-{pn}-Pad{n})' for n,pn in [('4','S_AUX'),('6','T_SWITCH')]})
- addfp('PJ-327A0-SMT_C381135',ref,'PJ-327A0-SMT',x,7,90,con)
-for ref,val,x,y,angle,na,nb in [('R3','2.2k',8.5,6.5,0,'MIC_L','GND'),('R4','2.2k',8.5,12,0,'MIC_R','GND'),('R1','10k',11.5,5,0,'MIC_L','LINE_L'),('R2','10k',11.5,9.5,0,'MIC_R','LINE_R')]:
+ # Body front (local x=-6) sits on the top edge y=0: the Ø5 mouth reaches 0.25 mm
+ # below the seating plane, so all 2 mm of it must overhang the board.
+ addfp('PJ-327A0-SMT_C381135',ref,'PJ-327A0-SMT',x,JY,270,con)
+for ref,val,x,y,angle,na,nb in [('R3','2.2k',6,7,0,'MIC_L','GND'),('R4','2.2k',6,11,0,'MIC_R','GND'),('R1','10k',14,3.5,0,'MIC_L','LINE_L'),('R2','10k',14,10.5,0,'MIC_R','LINE_R')]:
  addfp('R_0603_1608Metric',ref,val,x,y,angle,{'1':na,'2':nb})
 def point(ref,n):
  p=pads[(ref,str(n))].GetPosition();return (round(k.ToMM(p.x),5),round(k.ToMM(p.y),5))
@@ -152,42 +156,29 @@ def route(net,pts,layer='F.Cu',width=None):
   t=k.PCB_TRACK(b);t.SetStart(V(*a));t.SetEnd(V(*z));t.SetWidth(M(width));t.SetLayer(k.F_Cu if layer=='F.Cu' else k.B_Cu);t.SetNet(nets[net]);b.Add(t)
 def via(net,x,y):
  v=k.PCB_VIA(b);v.SetPosition(V(x,y));v.SetWidth(M(.8 if net=='GND' else .6));v.SetDrill(M(.4 if net=='GND' else .3));v.SetViaType(k.VIATYPE_THROUGH);v.SetLayerPair(k.F_Cu,k.B_Cu);v.SetNet(nets[net]);b.Add(v)
-# No zones. Star branches meet only inside W1.4's 2 mm pad.
+# Branches meet only at P4; the broad board permits a short jack-depth layout.
 star=point('W1','4')
 route('GND',[star,point('W1','4b')])
-route('GND',[star,(6.8,7.8),(9.325,7.8),point('R3','2')])
-route('GND',[star,(6.5,11.05),(9.325,11.05),point('R4','2')])
-route('GND',[star,(3.5,11),(3.5,13.8),(21,13.8),(22,12.8),point('J1','3')])
-route('GND',[point('J2','3'),(33,11.7)]);via('GND',33,11.7)
-route('GND',[star,(7,7.5),(12,7.5),(13.3,8.8),(30.1,8.8),(33,11.7)],'B.Cu')
-# Headphone traces mostly on top, upper edge.
-route('HP_L',[point('W1','1'),(6.5,.7),(20,.7),(22,2.7),point('J1','2')])
-route('HP_R',[point('W1','2'),(10,3.2),(13.5,3.2),(14,3.7),(14,6.8),point('J1','5')])
-# Short microphone nets near cable pads.
-route('MIC_L',[point('W1','3'),point('R3','1')])
-route('MIC_L',[point('R3','1'),(7.675,5),(10.675,5)])
-route('MIC_R',[point('W1','5'),point('R4','1')])
-route('MIC_R',[point('R4','1'),(7.675,13),(10,13),(10.675,12.325),point('R2','1')])
-# Line signals on bottom, spatially separated from headphone traces.
-route('LINE_L',[point('R1','2'),(12.8,5)]);via('LINE_L',12.8,5)
-route('LINE_L',[(12.8,5),(15,2.5),(30,2.5),(31,3.5),(31,4.8)],'B.Cu');via('LINE_L',31,4.8)
-route('LINE_L',[(31,4.8),(33,4.8),point('J2','2')])
-route('LINE_R',[point('R2','2'),(13,9.5),(13.5,9),(24,9),point('J2','5')])
-# Board outline 35 x 15, straight edges for simple routing/panelization.
-for a,z in [((0,0),(35,0)),((35,0),(35,15)),((35,15),(0,15)),((0,15),(0,0))]:
+route('GND',[star,point('R3','2')])
+route('GND',[star,(7.5,8.5),(7.5,11),point('R4','2')])
+route('GND',[star,(10.5,8.5),(10.5,11.2),(12,12.7),(21,12.7),(21,2.6),point('J1','3')])
+route('GND',[point('J2','3'),(37,2.6)]);via('GND',37,2.6)
+route('GND',[star,(12,6),(32,6),(35.4,2.6),(37,2.6)],'B.Cu')
+from route_signals import autoroute
+autoroute(b,pads,route,via,point)
+for a,z in [((0,0),(48,0)),((48,0),(48,13.5)),((48,13.5),(0,13.5)),((0,13.5),(0,0))]:
  s=k.PCB_SHAPE();s.SetShape(k.SHAPE_T_SEGMENT);s.SetStart(V(*a));s.SetEnd(V(*z));s.SetLayer(k.Edge_Cuts);s.SetWidth(M(.05));b.Add(s)
 def silk(txt,x,y,size=.8,back=False,angle=0):
  size=max(size,.8)
  t=k.PCB_TEXT(b);t.SetText(txt);t.SetPosition(V(x,y));t.SetTextSize(V(size,size));t.SetTextThickness(M(.12));t.SetLayer(k.B_SilkS if back else k.F_SilkS);t.SetMirrored(back);t.SetTextAngle(k.EDA_ANGLE(angle,k.DEGREES_T));b.Add(t)
 for n,l in [('1','L'),('2','R'),('3','ML'),('4','G'),('5','MR')]:
- x,y=wirepos[n];silk(f'{n} {l}',2.1,y+(.6 if n=='1' else 0),.8)
-silk('4b G',7.6,8.0,.8)
-for ref,x,y in [('R1',11.5,3.9),('R2',11.5,8.4),('R3',8.5,5.4),('R4',8.5,13.2)]:silk(ref,x,y,.65)
-silk('1 PHONES',18.5,13.9,.7,True);silk('2 LINE IN',29.5,13.9,.7,True)
-silk('XZ1  REV A',21,6.5,1,True);silk('STAR GND / NO POUR',21,8, .7,True)
-silk('1',18.5,.5,.8);silk('2',29.5,.5,.8)
-# Labels on top beside the jacks where plastic does not hide them.
-silk('PHONES',12.4,12.4,.65,False,90);silk('LINE IN',24,7.5,.65,False,90)
-b.BuildConnectivity();k.SaveBoard(str(PROJ/'xz1-splitter.kicad_pcb'),b)
+ x,y=wirepos[n];silk(f'{n} {l}',x,y-1.55,.8)
+silk('4b',9,12.1,.8)
+for ref,x,y in [('R1',14,2.2),('R2',14,9.1),('R3',6,8.4),('R4',6,9.6)]:silk(ref,x,y,.8)
+silk('PHONES',27,6.4,1,True);silk('LINE IN',42,6.4,1,True)
+silk('XZ1 B / 48x13.5',15,3.2,.8,True)
+silk('STAR GND - NO POUR',18,8.5,.8,True)
+silk('PHONES',19.5,5.5,.8,False,90);silk('LINE IN',34.4,2.8,.8,False,90)
+b.BuildConnectivity();k.SaveBoard(str(PROJ/'xz1-direct.kicad_pcb'),b)
 (ROOT/'reports/layout-pads.json').write_text(json.dumps({r+'.'+n:point(r,n) for r,n in pads},indent=2))
 print('Generated schematic, board and local libraries:',PROJ)
