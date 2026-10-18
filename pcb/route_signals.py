@@ -1,5 +1,5 @@
 """Deterministic two-layer clearance-aware signal routing; KiCad DRC is authoritative."""
-import heapq, math
+import heapq, math, os
 import pcbnew as k
 STEP=.1; NX=481; NY=136; N=NX*NY
 mm=k.ToMM
@@ -27,10 +27,10 @@ def autoroute(b,pads,route,via,point):
     x,y=xy(p.GetPosition());sz=xy(p.GetSize());attr=p.GetAttribute()
     if attr==k.PAD_ATTRIB_NPTH:
      clear=1.5 if abs(mm(p.GetDrillSize().x)-2.2)<.001 else .25
-     circ(x,y,mm(p.GetDrillSize().x)/2+clear+rad+.12,[0,1]);continue
+     circ(x,y,mm(p.GetDrillSize().x)/2+clear+rad+.06,[0,1]);continue
     if p.GetNetname()==net:continue
     ls=[0,1] if attr==k.PAD_ATTRIB_PTH else [0]
-    extra=.2+rad+.12
+    extra=.2+rad+.06
     if p.GetShape()==k.PAD_SHAPE_CIRCLE:circ(x,y,sz[0]/2+extra,ls)
     else:
      if round(p.GetOrientationDegrees())%180==90:sz=sz[::-1]
@@ -39,18 +39,18 @@ def autoroute(b,pads,route,via,point):
   for t in b.GetTracks():
    if t.GetNetname()==net:continue
    if isinstance(t,k.PCB_VIA):
-    x,y=xy(t.GetPosition());circ(x,y,mm(t.GetWidth(k.F_Cu))/2+.2+rad+.12,[0,1])
-   else:seg(xy(t.GetStart()),xy(t.GetEnd()),mm(t.GetWidth())/2+.2+rad+.12,[0 if t.GetLayer()==k.F_Cu else 1])
+    x,y=xy(t.GetPosition());circ(x,y,mm(t.GetWidth(k.F_Cu))/2+.2+rad+.06,[0,1])
+   else:seg(xy(t.GetStart()),xy(t.GetEnd()),mm(t.GetWidth())/2+.2+rad+.06,[0 if t.GetLayer()==k.F_Cu else 1])
   # Via drills must also avoid all existing holes, including same-net pads/vias.
   if rad>.2:
    for fp in b.GetFootprints():
     for p in fp.Pads():
      dr=mm(p.GetDrillSize().x)/2
      if dr>0:
-      x,y=xy(p.GetPosition());circ(x,y,dr+.15+.25+.12,[0,1])
+      x,y=xy(p.GetPosition());circ(x,y,dr+.15+.25+.06,[0,1])
    for t in b.GetTracks():
     if isinstance(t,k.PCB_VIA):
-     x,y=xy(t.GetPosition());circ(x,y,mm(t.GetDrillValue())/2+.15+.25+.12,[0,1])
+     x,y=xy(t.GetPosition());circ(x,y,mm(t.GetDrillValue())/2+.15+.25+.06,[0,1])
   edge=.3+rad+.1
   for y in range(NY):
    for x in range(NX):
@@ -61,6 +61,8 @@ def autoroute(b,pads,route,via,point):
         ('MIC_R',('W1','5'),('R4','1')),('MIC_R',('R4','1'),('R2','1')),
         ('HP_L',('W1','1'),('J1','2')),('HP_R',('W1','2'),('J1','5')),
         ('LINE_L',('R1','2'),('J2','2')),('LINE_R',('R2','2'),('J2','5'))]
+ order=os.environ.get('XZ1_ROUTE_ORDER','LINE_L,LINE_R,HP_R,MIC_L,MIC_R,HP_L').split(',')
+ pairs.sort(key=lambda item: order.index(item[0]))
  for net,a,z in pairs:
   blk=occupancy('/'+net,.15);vblk=occupancy('/'+net,.3)
   sx,sy=grid(point(*a));tx,ty=grid(point(*z));target=ty*NX+tx
@@ -84,7 +86,7 @@ def autoroute(b,pads,route,via,point):
     if blk[layer][ni]:continue
     if dx and dy and (blk[layer][y*NX+xx] or blk[layer][yy*NX+x]):continue
     moves.append((layer*N+ni,1.41421356 if dx and dy else 1,xx,yy))
-   if not vblk[0][idx] and not vblk[1][idx]:moves.append(((1-layer)*N+idx,35,x,y))
+   if not vblk[0][idx] and not vblk[1][idx]:moves.append(((1-layer)*N+idx,15,x,y))
    for v,c,xx,yy in moves:
     nd=d+c
     if nd<dist.get(v,1e20):dist[v]=nd;prev[v]=u;heapq.heappush(q,(nd+heur(xx,yy),nd,v))

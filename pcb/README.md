@@ -1,8 +1,10 @@
-# Spar PCB — Rev B-M2
+# Spar PCB — Rev C-M2
 
 ![Top](previews/top.png)
 
-Rev B with mounting holes: the two 1.6 mm locating holes became **2.2 mm holes for M2 screws** at (18, 9.5) and (35, 6.5) mm, with a 5.2 mm copper keep-out, so the board can be screwed into the first enclosure. 48 × 13.5 × 1.0 mm. ERC and DRC clean.
+Jacks grouped next to the plug. The further the jacks sit from the plug, the more leverage a plugged-in cable has on the plug, so both jacks moved next to it: (6, 6) and (18, 6) mm. The wire pads moved to the right, R1/R2 rotated 180° and the M2 holes moved to (27, 2.7) and (35, 9.5) mm. Circuit, star ground and design rules are unchanged; ERC and DRC clean. 48 × 13.5 × 1.0 mm. Trade-off: the wires from the plug to the pads became longer (about 40–53 mm).
+
+`mechanical-layout.json` records the jack, hole and pad positions shared with the enclosure.
 
 Open `kicad/xz1-direct.kicad_pro`. Symbols and footprints are in `kicad/lib/`.
 
@@ -42,8 +44,6 @@ The project was generated and checked with KiCad 10 and its bundled Python:
 
 The jack footprint was drawn from the manufacturer's top-view drawing (XKB PJ-327A0-SMT, LCSC C381135). The 0603 resistor footprint and 3D model come from the KiCad library (CC BY-SA 4.0 with the KiCad design exception).
 
-`upgrade_mounting.py` converts a saved Rev B board to B-M2 (re-routes around the larger keep-outs, keeps placement and schematic).
-
 ## Files
 
 | Path | Contents |
@@ -64,3 +64,4 @@ Each revision replaces the previous one on this branch; earlier ones are kept as
 | [`pcb-rev-a`](../../../tree/pcb-rev-a/pcb) | 2026-10-13 | Cable splitter board, 35 × 15 mm (KiCad) |
 | [`pcb-rev-b`](../../../tree/pcb-rev-b/pcb) | 2026-10-15 | Direct-plug board, 48 × 13.5 mm (KiCad) |
 | [`pcb-rev-b-m2`](../../../tree/pcb-rev-b-m2/pcb) | 2026-10-16 | Rev B with two M2 mounting holes (KiCad) |
+| [`pcb-rev-c-m2`](../../../tree/pcb-rev-c-m2/pcb) | 2026-10-18 | Jacks grouped next to the plug (KiCad) |

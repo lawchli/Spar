@@ -6,6 +6,7 @@ and cross-checked against XKB PJ-327AX-SMT top-view drawing.
 import json, math, pathlib, shutil, uuid
 import pcbnew as k
 ROOT=pathlib.Path(__file__).resolve().parent
+LAYOUT=json.loads((ROOT/'mechanical-layout.json').read_text())
 PROJ=ROOT/'kicad'; LIB=PROJ/'lib'/'XZ1.pretty'
 LIB.mkdir(parents=True,exist_ok=True)
 SHARED=pathlib.Path('/Applications/KiCad/KiCad.app/Contents/SharedSupport')
@@ -55,7 +56,7 @@ shutil.copyfile(SHARED/'3dmodels/Resistor_SMD.3dshapes/R_0603_1608Metric.step',m
 resfp=(SHARED/'footprints/Resistor_SMD.pretty/R_0603_1608Metric.kicad_mod').read_text().replace('${KICAD10_3DMODEL_DIR}/Resistor_SMD.3dshapes/R_0603_1608Metric.step','${KIPRJMOD}/lib/models/R_0603_1608Metric.step')
 (LIB/'R_0603_1608Metric.kicad_mod').write_text(resfp)
 # One six-pad footprint, no purchased connector. Pad 4b is the optional ground test pad.
-wirepos={'1':(3,2.5),'2':(6,2.5),'3':(3,7),'4':(9,7),'5':(3,11),'4b':(9,10.5)}
+wirepos=LAYOUT['wire_pads']
 w='''(footprint "WirePads_5Pole_Star" (version 20260206) (generator "xz1-builder") (layer "F.Cu")
 (attr through_hole exclude_from_pos_files exclude_from_bom)
 (property "Reference" "REF**" (at 0 0) (layer "F.Fab") (effects (font (size 1 1) (thickness 0.15))))
@@ -64,8 +65,8 @@ w='''(footprint "WirePads_5Pole_Star" (version 20260206) (generator "xz1-builder
 for n,(x,y) in wirepos.items():
  w+=f'(pad "{n}" thru_hole circle (at {x} {y}) (size 2 2) (drill 1) (layers "*.Cu" "*.Mask"))\n'
 # M2 NPTH mounting holes. Reserve radius 2.6 mm around centre on both copper layers.
-for x,y in [(18,9.5),(35,6.5)]:w+=f'(pad "" np_thru_hole circle (at {x} {y}) (size 2.2 2.2) (drill 2.2) (layers "*.Cu" "*.Mask"))\n'
-w+='(fp_rect (start 1.5 1) (end 10.5 12.5) (stroke (width .05) (type solid)) (fill none) (layer "B.CrtYd"))\n)';(LIB/'WirePads_5Pole_Star.kicad_mod').write_text(w)
+for x,y in LAYOUT['mounts']:w+=f'(pad "" np_thru_hole circle (at {x} {y}) (size 2.2 2.2) (drill 2.2) (layers "*.Cu" "*.Mask"))\n'
+w+='(fp_rect (start 37.5 1) (end 46.5 12.5) (stroke (width .05) (type solid)) (fill none) (layer "B.CrtYd"))\n)';(LIB/'WirePads_5Pole_Star.kicad_mod').write_text(w)
 (PROJ/'fp-lib-table').write_text('(fp_lib_table (version 7) (lib (name "XZ1") (type "KiCad") (uri "${KIPRJMOD}/lib/XZ1.pretty") (options "") (descr "Project local verified footprints")))\n')
 # Schematic symbols use passive pins; all circuit parts are passive.
 effect='(effects (font (size 1.27 1.27)))'
@@ -103,7 +104,7 @@ for ref,y in [('J1',60.96),('J2',127)]:
   else:labwire(({'2':'HP_L','5':'HP_R','3':'GND'} if ref=='J1' else {'2':'LINE_L','5':'LINE_R','3':'GND'})[n],205.74,py,-17.78)
 for ref,val,x,y,a,b,lc in [('R1','10k',116.84,121.92,'MIC_L','LINE_L','C25804'),('R2','10k',116.84,142.24,'MIC_R','LINE_R','C25804'),('R3','2.2k',76.2,99.06,'MIC_L','GND','C4190'),('R4','2.2k',121.92,99.06,'MIC_R','GND','C4190')]:
  sym('R',ref,val,x,y,'R_0603_1608Metric',lc);labwire(a,round(x-5.08,4),y);labwire(b,round(x+5.08,4),y,7.62)
-text('XZ1 STEREO SPLITTER  /  Rev B',25.4,25.4,2.54)
+text('XZ1 STEREO SPLITTER  /  Rev C-M2',25.4,25.4,2.54)
 text('Fixed circuit: R1/R2 10k, R3/R4 2.2k, all 0603 1%.',25.4,33.02)
 text('P4 = star point. Four independent returns: J1.S, J2.S, R3, R4. NO copper pours.',25.4,38.1)
 text('1 PHONES (TRS)',190.5,43.18,1.524);text('2 LINE IN (TRS)',190.5,109.22,1.524)
@@ -139,14 +140,16 @@ def addfp(name,ref,val,x,y,angle,connections):
  field=k.PCB_FIELD(fp,k.FIELD_T_USER);field.SetName('LCSC');field.SetText({'J1':'C381135','J2':'C381135','R1':'C25804','R2':'C25804','R3':'C4190','R4':'C4190','W1':''}[ref]);field.SetVisible(False);fp.Add(field)
  fps[ref]=fp;return fp
 addfp('WirePads_5Pole_Star','W1','FIVE-POLE INTERNAL WIRES',0,0,0,wn)
-JY=6.0
-for ref,x in [('J1',27),('J2',42)]:
+JY=LAYOUT['socket_y']
+for ref,x in zip(('J1','J2'),LAYOUT['socket_x']):
  con={'2':'HP_L','5':'HP_R','3':'GND'} if ref=='J1' else {'2':'LINE_L','5':'LINE_R','3':'GND'}
  con.update({n:f'unconnected-({ref}-{pn}-Pad{n})' for n,pn in [('4','S_AUX'),('6','T_SWITCH')]})
  # Body front (local x=-6) sits on the top edge y=0: the Ø5 mouth reaches 0.25 mm
  # below the seating plane, so all 2 mm of it must overhang the board.
  addfp('PJ-327A0-SMT_C381135',ref,'PJ-327A0-SMT',x,JY,270,con)
 for ref,val,x,y,angle,na,nb in [('R3','2.2k',6,7,0,'MIC_L','GND'),('R4','2.2k',6,11,0,'MIC_R','GND'),('R1','10k',14,3.5,0,'MIC_L','LINE_L'),('R2','10k',14,10.5,0,'MIC_R','LINE_R')]:
+ x,y=LAYOUT['resistors'][ref]
+ angle=LAYOUT['resistor_rotations'][ref]
  addfp('R_0603_1608Metric',ref,val,x,y,angle,{'1':na,'2':nb})
 def point(ref,n):
  p=pads[(ref,str(n))].GetPosition();return (round(k.ToMM(p.x),5),round(k.ToMM(p.y),5))
@@ -161,10 +164,11 @@ def via(net,x,y):
 star=point('W1','4')
 route('GND',[star,point('W1','4b')])
 route('GND',[star,point('R3','2')])
-route('GND',[star,(7.5,8.5),(7.5,11),point('R4','2')])
-route('GND',[star,(10.5,8.5),(10.5,11.2),(12,12.7),(21,12.7),(21,2.6),point('J1','3')])
-route('GND',[point('J2','3'),(37,2.6)]);via('GND',37,2.6)
-route('GND',[star,(12,6),(31,6),(33,3),(35.4,2.6),(37,2.6)],'B.Cu')
+route('GND',[star,(43.5,8.5),(43.5,11),point('R4','2')])
+via('GND',*point('J1','3'))
+route('GND',[point('J1','3'),(2.5,4.2),(11.8,4.2),(11.8,6),(31,6),(34,4.5),(45,4.5),star],'B.Cu')
+route('GND',[point('J2','3'),(14.5,7),(23.5,7)]);via('GND',23.5,7)
+route('GND',[(23.5,7),(32,7),(35,6.5),(37,6.5),(38,8.7),(41.5,8.7),star],'B.Cu')
 from route_signals import autoroute
 autoroute(b,pads,route,via,point)
 for a,z in [((0,0),(48,0)),((48,0),(48,13.5)),((48,13.5),(0,13.5)),((0,13.5),(0,0))]:
@@ -174,12 +178,12 @@ def silk(txt,x,y,size=.8,back=False,angle=0):
  t=k.PCB_TEXT(b);t.SetText(txt);t.SetPosition(V(x,y));t.SetTextSize(V(size,size));t.SetTextThickness(M(.12));t.SetLayer(k.B_SilkS if back else k.F_SilkS);t.SetMirrored(back);t.SetTextAngle(k.EDA_ANGLE(angle,k.DEGREES_T));b.Add(t)
 for n,l in [('1','L'),('2','R'),('3','ML'),('4','G'),('5','MR')]:
  x,y=wirepos[n];silk(f'{n} {l}',x,y-1.55,.8)
-silk('4b',9,12.1,.8)
-for ref,x,y in [('R1',14,2.2),('R2',14,9.1),('R3',6,8.4),('R4',6,9.6)]:silk(ref,x,y,.8)
-silk('PHONES',27,6.4,1,True);silk('LINE IN',42,6.4,1,True)
-silk('XZ1 B-M2 48x13.5',15,3.2,.8,True)
-silk('STAR GND - NO POUR',14,5.0,.8,True)
-silk('PHONES',19.5,5.5,.8,False,90);silk('LINE IN',34.4,2.8,.8,False,90)
+silk('4b',45,12.1,.8)
+for ref,(x,y) in LAYOUT['resistors'].items():
+ silk(ref,x,y-1.4,.8)
+silk('PHONES',6,6.4,1,True);silk('LINE IN',18,6.4,1,True)
+silk('XZ1 C-M2',32,4.8,.8,True)
+silk('STAR GND',40,5.2,.8,True)
 b.BuildConnectivity();k.SaveBoard(str(PROJ/'xz1-direct.kicad_pcb'),b)
 (ROOT/'reports/layout-pads.json').write_text(json.dumps({r+'.'+n:point(r,n) for r,n in pads},indent=2))
 print('Generated schematic, board and local libraries:',PROJ)

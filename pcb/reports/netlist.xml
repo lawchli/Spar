@@ -2,8 +2,8 @@
 <export version="E">
   <design>
     <source>kicad/xz1-direct.kicad_sch</source>
-    <date>2026-10-16T17:00:50</date>
-    <tool>Eeschema 10.0.6</tool>
+    <date>2026-10-18T14:00:32</date>
+    <tool>Eeschema 10.0.7</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
         <title>XZ1 Stereo Splitter</title>
@@ -258,7 +258,7 @@
     </library>
   </libraries>
   <nets>
-    <net code="1" name="/GND" class="Default">
+    <net code="1" name="/GND" class="Ground,Default">
       <node ref="J1" pin="3" pinfunction="SLEEVE_3" pintype="passive"/>
       <node ref="J2" pin="3" pinfunction="SLEEVE_3" pintype="passive"/>
       <node ref="R3" pin="2" pintype="passive"/>

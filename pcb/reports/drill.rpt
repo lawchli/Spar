@@ -1,5 +1,5 @@
 Drill report for xz1-direct.kicad_pcb
-Created on 2026-10-16T17:00:51
+Created on 2026-10-18T14:00:34
 
 Copper Layer Stackup:
     =============================================================
@@ -10,11 +10,11 @@ Copper Layer Stackup:
 Drill file 'xz1-direct-PTH.drl' contains
     plated through holes:
     =============================================================
-    T1  0.300mm  0.0118"  (7 holes))
-    T2  0.400mm  0.0157"  (1 hole)
+    T1  0.300mm  0.0118"  (10 holes))
+    T2  0.400mm  0.0157"  (2 holes))
     T3  1.000mm  0.0394"  (6 holes))
 
-    Total plated holes count 14
+    Total plated holes count 18
 
 
 Drill file 'xz1-direct-NPTH.drl' contains

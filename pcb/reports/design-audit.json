@@ -2,25 +2,25 @@
   "mounting_holes": [
     {
       "centre_mm": [
-        18.0,
-        9.5
+        27.0,
+        2.7
       ],
       "drill_diameter_mm": 2.2,
-      "nearest_copper_from_centre_mm": 2.7232,
+      "nearest_copper_from_centre_mm": 3.05,
       "minimum_keepout_radius_mm": 2.6
     },
     {
       "centre_mm": [
         35.0,
-        6.5
+        9.5
       ],
       "drill_diameter_mm": 2.2,
-      "nearest_copper_from_centre_mm": 2.75,
+      "nearest_copper_from_centre_mm": 2.6784,
       "minimum_keepout_radius_mm": 2.6
     }
   ],
   "result": "PASS",
-  "date": "2026-10-16",
+  "date": "2026-10-18",
   "actual_copper_star_branches_after_removing_P4": [
     [
       "J1.3"
