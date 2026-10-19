@@ -1,0 +1,8 @@
+Ref,Qty,Part,Manufacturer part,LCSC,Notes
+J1 J2,2,"3.5 mm TRS socket, SMD",XKB PJ-327A0-SMT,C381135,Hand-soldered
+R1 R2,2,"10 kΩ 1 %, 0805",0805W8F1002T5E,C17414,Series resistors
+R3 R4,2,"2.2 kΩ 1 %, 0805",0805W8F2201T5E,C17520,Detection load to ground
+—,1,"5-pole 3.5 mm plug, wire terminals",—,—,Wired to the five pads; poles counted from the tip
+—,2,"M2 screw, flat low-profile head ≤ 5 mm, length to suit the enclosure",—,—,From the front through the mounting holes
+—,2,"M2 hex nut, 4 mm across flats",—,—,At the back
+—,2,"M2 nylon flat washer, 0.5 mm",—,—,Under the screw heads to protect the solder mask

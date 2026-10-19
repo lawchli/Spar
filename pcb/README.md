@@ -1,12 +1,9 @@
-# Spar PCB — Rev C-M2
+# Spar PCB — Rev D
 
-![Top](previews/top.png)
+![Front](previews/front-3d.png)
+![Back](previews/back-3d.png)
 
-Jacks grouped next to the plug. The further the jacks sit from the plug, the more leverage a plugged-in cable has on the plug, so both jacks moved next to it: (6, 6) and (18, 6) mm. The wire pads moved to the right, R1/R2 rotated 180° and the M2 holes moved to (27, 2.7) and (35, 9.5) mm. Circuit, star ground and design rules are unchanged; ERC and DRC clean. 48 × 13.5 × 1.0 mm. Trade-off: the wires from the plug to the pads became longer (about 40–53 mm).
-
-`mechanical-layout.json` records the jack, hole and pad positions shared with the enclosure.
-
-Open `kicad/xz1-direct.kicad_pro`. Symbols and footprints are in `kicad/lib/`.
+**Spar Rev D**, redrawn natively in EasyEDA Pro: **50.5 × 13.5 × 1.6 mm**, 2 layers, 0805 resistors, everything hand-solderable. The name comes from Iceland spar, the crystal that splits one image into two, as the board splits one 5-pole jack into monitoring and stereo recording.
 
 ## Circuit
 
@@ -22,37 +19,33 @@ The board is passive. A 5-pole plug goes into the phone; its poles are counted f
 
 The 2.2 kΩ resistors give each microphone contact the DC load the phone needs to detect a headset microphone; the 10 kΩ series resistors drop line level to microphone level. Every ground branch (both jack sleeves and both 2.2 kΩ resistors) returns separately to the single ground pad of the plug wires, and neither copper layer has a pour. Background: [software/docs/STEREO-CAPTURE.md](../../../blob/software/software/docs/STEREO-CAPTURE.md).
 
-## Fabrication
+## Board
 
-`fab/` holds the Gerber archive, `BOM.csv` and the placement file `CPL.csv`, prepared for JLCPCB (FR-4, 2 layers, 1.0 mm, 1 oz copper, top-side SMT). Check jack orientation in the manufacturer's placement preview before ordering. This revision was not fabricated.
+Coordinates from the top-left corner of the component side, X right, Y down, in mm.
 
-| Ref | Part | LCSC |
-|---|---|---|
-| J1, J2 | XKB PJ-327A0-SMT, 3.5 mm TRS socket | C381135 |
-| R1, R2 | 10 kΩ 1 %, 0603 | C25804 |
-| R3, R4 | 2.2 kΩ 1 %, 0603 | C4190 |
+| Feature | Position |
+|---|---|
+| Jack axes (J1, J2) | (27.8, 6) and (39.8, 6), 12 mm apart |
+| M2 mounting holes | (15.7, 10) and (47.8, 2.6): 2.2 mm non-plated, 2.6 mm copper keep-out radius on both sides |
+| Lid-post notch | right edge, centre (48.5, 8.6), 6.6 mm cut-out, 7.2 mm keep-out |
+| Wire pads | five pads at 2.54 mm pitch on a 55° row, one ground pad |
 
-The five plug wires are soldered to pads W1; they are not a connector.
+Checks in EasyEDA Pro: strict DRC 0 errors and 0 unrouted, 51 tracks, 8 vias, no copper pours; all 23 pins match the frozen netlist; four independent ground branches at the ground pad; minimum clearance between different nets 0.262 mm. Back silkscreen: Spar, Rev D.
 
-## Rebuilding
-
-The project was generated and checked with KiCad 10 and its bundled Python:
-
-- `build_design.py` generates the schematic, footprints and board. Its 3D-model step needs the jack's EasyEDA model, which is not redistributed here, so the jack has no 3D model in this repository; the board files open and check without it.
-- `release.py` runs ERC and DRC and exports the Gerbers, BOM, placement file and renders. Set `KICAD_CLI` and `KICAD_PYTHON` if KiCad is not in its default macOS location.
-- `verify_design.py` independently checks the star ground, the resistor paths and the clearances against the exported netlist.
-
-The jack footprint was drawn from the manufacturer's top-view drawing (XKB PJ-327A0-SMT, LCSC C381135). The 0603 resistor footprint and 3D model come from the KiCad library (CC BY-SA 4.0 with the KiCad design exception).
+Mounting: two flat low-profile M2 screws from the front with 0.5 mm nylon washers under the heads, nuts at the back.
 
 ## Files
 
 | Path | Contents |
 |---|---|
-| `kicad/` | KiCad project and local library |
-| `fab/` | Gerbers, BOM, placement |
-| `previews/` | KiCad renders, copper views, schematic |
-| `reports/` | ERC, DRC, drill report, netlist, independent design audit, release checksums |
-| `build_design.py`, `route_signals.py`, `release.py`, `verify_design.py` | Generator, router, release and check scripts |
+| `easyeda/Spar-RevD-layout.epro2` | Complete EasyEDA Pro project (schematic, PCB and libraries); import it in EasyEDA Pro |
+| `easyeda/Spar-FivePole-Wires.elibz2` | Library for the five-wire pad component |
+| `easyeda/Spar-RevD-layout.epcb` | PCB source (JSON) |
+| `easyeda/*.enet` | Netlists exported from the PCB and the schematic |
+| `previews/` | Renders exported from EasyEDA Pro |
+| `BOM.csv` | Parts for one board |
+
+Fabrication files (Gerbers, drill files) will be added when the board is ordered. If the manufacturer's review requires changes, they will become Rev E.
 
 ## Revisions
 
@@ -65,3 +58,4 @@ Each revision replaces the previous one on this branch; earlier ones are kept as
 | [`pcb-rev-b`](../../../tree/pcb-rev-b/pcb) | 2026-10-15 | Direct-plug board, 48 × 13.5 mm (KiCad) |
 | [`pcb-rev-b-m2`](../../../tree/pcb-rev-b-m2/pcb) | 2026-10-16 | Rev B with two M2 mounting holes (KiCad) |
 | [`pcb-rev-c-m2`](../../../tree/pcb-rev-c-m2/pcb) | 2026-10-18 | Jacks grouped next to the plug (KiCad) |
+| [`pcb-rev-d`](../../../tree/pcb-rev-d/pcb) | 2026-10-20 | Spar Rev D, redrawn in EasyEDA Pro |
