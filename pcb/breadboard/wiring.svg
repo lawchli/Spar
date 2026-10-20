@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 480" width="820" height="480" font-family="Helvetica, Arial, sans-serif">
+  <rect width="820" height="480" fill="#ffffff"/>
+  <style>
+    .w{stroke:#222;stroke-width:2;fill:none}
+    .g{stroke:#666;stroke-width:3;fill:none}
+    .box{fill:#f6f6f3;stroke:#444;stroke-width:1.5}
+    .r{fill:#fff;stroke:#222;stroke-width:2}
+    .t{font-size:14px;fill:#222}
+    .s{font-size:12px;fill:#555}
+    .h{font-size:15px;font-weight:bold;fill:#222}
+  </style>
+
+  <text x="24" y="32" class="h">Spar input network — breadboard / hand-wired build</text>
+  <text x="24" y="52" class="s">Per channel: 10 kΩ in series, 2.2 kΩ to ground. All grounds meet at a single point ★.</text>
+
+  <!-- 5-pole plug -->
+  <rect x="24" y="80" width="170" height="340" rx="6" class="box"/>
+  <text x="40" y="104" class="h">5-pole plug</text>
+  <text x="40" y="122" class="s">poles counted from the tip</text>
+  <text x="40" y="160" class="t">1  Left headphone</text>
+  <text x="40" y="200" class="t">2  Right headphone</text>
+  <text x="40" y="270" class="t">3  Left mic</text>
+  <text x="40" y="340" class="t">4  Ground</text>
+  <text x="40" y="410" class="t">5  Right mic</text>
+
+  <!-- headphone jack -->
+  <rect x="616" y="80" width="180" height="160" rx="6" class="box"/>
+  <text x="632" y="104" class="h">Headphone jack</text>
+  <text x="632" y="122" class="s">3.5 mm TRS socket</text>
+  <text x="650" y="160" class="t">Tip (L)</text>
+  <text x="650" y="200" class="t">Ring (R)</text>
+  <text x="650" y="230" class="t">Sleeve (GND)</text>
+
+  <!-- line-in jack -->
+  <rect x="616" y="250" width="180" height="170" rx="6" class="box"/>
+  <text x="632" y="274" class="h">Line-in jack</text>
+  <text x="632" y="292" class="s">3.5 mm TRS socket</text>
+  <text x="650" y="320" class="t">Tip (left in)</text>
+  <text x="650" y="370" class="t">Sleeve (GND)</text>
+  <text x="650" y="410" class="t">Ring (right in)</text>
+
+  <!-- headphone signals -->
+  <path class="w" d="M180 155 H644"/>
+  <path class="w" d="M180 195 H644"/>
+
+  <!-- left mic: pole 3 -->
+  <path class="w" d="M180 265 H290"/>
+  <circle cx="290" cy="265" r="4" fill="#222"/>
+  <path class="w" d="M290 265 H420"/>
+  <rect x="420" y="255" width="70" height="20" class="r"/>
+  <text x="430" y="248" class="t">10 kΩ</text>
+  <path class="w" d="M490 265 H580 V315 H644"/>
+  <path class="w" d="M290 265 V280"/>
+  <rect x="280" y="280" width="20" height="36" class="r"/>
+  <text x="274" y="303" class="t" text-anchor="end">2.2 kΩ</text>
+
+  <!-- right mic: pole 5 -->
+  <path class="w" d="M180 405 H290"/>
+  <circle cx="290" cy="405" r="4" fill="#222"/>
+  <path class="w" d="M290 405 H420"/>
+  <rect x="420" y="395" width="70" height="20" class="r"/>
+  <text x="430" y="388" class="t">10 kΩ</text>
+  <path class="w" d="M490 405 H644"/>
+  <path class="w" d="M290 405 V390"/>
+  <rect x="280" y="354" width="20" height="36" class="r"/>
+  <text x="274" y="377" class="t" text-anchor="end">2.2 kΩ</text>
+
+  <!-- star ground: every ground runs separately to the star -->
+  <circle cx="400" cy="335" r="9" fill="#666"/>
+  <text x="394" y="340" fill="#fff" font-size="12">★</text>
+  <path class="g" d="M180 335 H391"/>
+  <path class="g" d="M290 316 V324 L392 331"/>
+  <path class="g" d="M290 354 V346 L392 339"/>
+  <path class="g" d="M409 337 C500 340 560 365 644 365"/>
+  <path class="g" d="M408 331 C470 320 520 300 540 280 V271 a6 6 0 0 0 0 -12 V225 H644"/>
+
+  <text x="24" y="450" class="s">Plug pole 4, both 2.2 kΩ resistors and both jack sleeves each run straight to ★. The ground to the headphone sleeve hops over the left input.</text>
+  <text x="24" y="468" class="s">Keep ground wires short and thick: headphone current shares pole 4 with the mic inputs and can cause feedback while monitoring.</text>
+</svg>
