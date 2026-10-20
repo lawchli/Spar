@@ -1,0 +1,13 @@
+# build outputs (binaries are attached to GitHub Releases instead)
+artifacts/
+native/build/
+test-app/build/
+test-app/.gradle/
+toolchains/
+local.properties
+*.keystore
+*.jks
+*.idsig
+# device logs and recordings stay local
+logs/
+captures/
