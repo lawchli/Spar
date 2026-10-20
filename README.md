@@ -16,7 +16,7 @@ A standard 4-pole (CTIA/OMTP) jack provides a single microphone input, so line-i
 
 - Stereo line input through the headphone jack, without a USB audio interface
 - Low-latency monitoring: the input is looped back to the headphones inside the phone's audio codec, bypassing Android and apps
-- Passive input network of four resistors, which can be built on the Spar board or on a breadboard
+- Passive input network of four resistors, which can be built on the Spar board or [on a breadboard](pcb/breadboard/README.md)
 
 ## Performance
 
